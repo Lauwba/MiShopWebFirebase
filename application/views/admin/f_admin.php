@@ -41,6 +41,7 @@
 <!--QUILL-->
 <script src="<?php echo base_url(); ?>assets/admin/assets/libs/select2/dist/js/select2.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/admin/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/admin/assets/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/admin/assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/admin/dist/js/pages/mask/mask.init.js"></script>

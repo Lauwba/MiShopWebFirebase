@@ -40,7 +40,7 @@
             cellEmail.appendChild(document.createTextNode(childData.email));
             cellNama.appendChild(document.createTextNode(childData.nama));
 //            cellJumlah.appendChild(document.createTextNode("0"));
-            cellAction.innerHTML = "<button type='button' class='btn btn-primary' onclick='suspendCustomer(`" + childKey + "`);'>Buka Suspend</button>";
+            cellAction.innerHTML = "<button type='button' class='btn btn-primary' onclick='suspendCustomer(`" + childKey + "`);'>Aktifkan Customer</button>";
             
             var refCustomer = firebase.database().ref('report/').orderByChild('uidTerlapor').equalTo(uid);
             refCustomer.once('value', function (snapshot) {

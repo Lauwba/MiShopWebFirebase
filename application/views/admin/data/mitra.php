@@ -28,13 +28,13 @@
                             <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('mitra_rate')">Laporan</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-warning">Pendapatan</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-warning" onclick="setActiveButton('mitra_income')">Transaksi</button>
                         </div>
-                        <div class="col-md-2 col-sm-12">
+<!--                        <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-danger" id="ts-error">Transaksi</button>
-                        </div>
+                        </div>-->
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-info" id="ts-cyan">Suspended</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-info" id="ts-cyan" onclick="setActiveButton('mitra_suspend')">Suspended</button>
                         </div>
 <!--                        <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan">Cari</button>
@@ -59,11 +59,11 @@
     $(document).ready(function () {
         var id = '<?php echo $this->session->userdata('penanda_mitra'); ?>';
         if (id === "") {
-            loadMitra('cust_all');
+            loadMitra('registrasi_mitra');
         } else {
             loadMitra(id);
         }
-//        console.log(id);
+        console.log(id);
 
     });
     function setActiveButton(penanda) {

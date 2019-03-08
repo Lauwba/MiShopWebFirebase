@@ -19,7 +19,7 @@
 </div>
 <script>
     var tblTarif = document.getElementById('tblMitra');
-    var databaseRef = firebase.database().ref('mitra/').orderByChild('status').equalTo(0);
+    var databaseRef = firebase.database().ref('mitra/').orderByChild('statusAktif').equalTo(0);
     var rowIndex = 1;
 
     databaseRef.once('value', function (snapshot) {
@@ -47,7 +47,7 @@
 
     function accMitra(id) {
         firebase.database().ref("/mitra/" + id).once("value", function (snapshot) {
-            snapshot.ref.child("status").set(1);
+            snapshot.ref.child("statusAktif").set(1);
             location.reload();
         });
     }

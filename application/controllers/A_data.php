@@ -23,7 +23,7 @@ class A_data extends CI_Controller {
         $this->session->set_userdata($sess_data);
     }
     function set_active_mitra() {
-        $sess_data['penanda'] = $this->input->post('penanda_mitra');
+        $sess_data['penanda_mitra'] = $this->input->post('penanda');
         $this->session->set_userdata($sess_data);
     }
     
@@ -38,6 +38,12 @@ class A_data extends CI_Controller {
     function mitra(){
         $data['title'] = "Data Mitra";
         $this->load->view('admin/data/mitra', $data);
+    }
+    function mitra_suspend(){
+        $this->load->view('admin/data/mitra_suspend');
+    }
+    function mitra_income(){
+       $this->load->view('admin/data/mitra_income'); 
     }
     function customer(){
         $data['title'] = "Data Customer";

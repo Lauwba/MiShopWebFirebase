@@ -217,11 +217,12 @@
             no_tel: notelp,
             tgl_lahir: tgl_lahir,
             nik_mitra: nik,
-            status_mitra: 0,
+            statusAktif: 0,
             saldo: 0,
             regid: "",
             foto: foto,
-            ktp: ktp
+            ktp: ktp,
+            masaSuspend: 0
         };
 
         var updates = {};

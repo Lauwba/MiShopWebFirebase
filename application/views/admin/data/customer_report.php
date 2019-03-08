@@ -27,9 +27,16 @@
             <div class="modal-body">
                 <form id="formTglSuspend">
                     <input type="hidden" name="id_customer">
-                    <label>Tanggal <small>(bulan/tanggal/tahun)</small></label>
+<!--                    <label>Tanggal <small>(bulan/tanggal/tahun)</small></label>
                     <div class="input-group">
-                        <input type="date" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="tanggal">
+                        <input type="datetime-local" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="tanggal">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>-->
+                    <label>Batas Waktu</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control mydatepicker" placeholder="YYYY/mm/dd hh:ii"  name="tanggal">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                         </div>
@@ -43,7 +50,9 @@
         </div>
     </div>
 </div>
+<?php $this->load->view('admin/f_admin_add'); ?>
 <script>
+
 
     var tbl = document.getElementById('tabelData');
     var databaseRef = firebase.database().ref('customer/').orderByChild('statusAktif').equalTo(0);

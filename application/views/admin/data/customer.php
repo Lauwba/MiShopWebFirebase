@@ -28,7 +28,7 @@
                             <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('cust_report')">Laporan</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-error">Transaksi</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-error" onclick="err()">Transaksi</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-danger" id="ts-cyan" onclick="setActiveButton('cust_suspend')">Suspended</button>
@@ -75,5 +75,8 @@
         });
         var url = "<?php echo base_url('A_data'); ?>/" + id;
         $("#loadData").load(url);
+    }
+    function err(){
+        alert("Fungsi Belum Berjalan");
     }
 </script>

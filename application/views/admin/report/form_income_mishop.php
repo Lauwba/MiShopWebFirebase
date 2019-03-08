@@ -77,7 +77,7 @@
                 var tarif = childSnapshot.val().tarif;
 
                 service(tarif, start, end);
-                shop(tarif, start, end);
+                
                 ojol(tarif, start, end, 'mibike');
                 ojol(tarif, start, end, 'miexpress');
                 ojol(tarif, start, end, 'micar');
@@ -90,7 +90,7 @@
     });
     function service(tarif, start, end) {
         var sum = 0;
-        databaseRef = firebase.database().ref('/serviceorder').orderByChild('tanggal_order').startAt(start).endAt(end);
+        databaseRef = firebase.database().ref('/serviceOrder').orderByChild('tanggal_order').startAt(start).endAt(end);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
@@ -104,13 +104,14 @@
                 console.log("income: " + pendapatan);
 
                 sum = sum + pendapatan;
-
+                
             });
             console.log("Akhir Service: " + sum);
             $("#service").html(toRp(sum));
+//            shop(tarif, start, end, sum);
         });
     }
-    function shop(tarif, start, end) {
+    function shop(tarif, start, end, sumService) {
         var sum = 0;
         databaseRef = firebase.database().ref('/shoporder').orderByChild('tanggalOrder').startAt(start).endAt(end);
         databaseRef.once('value', function (snapshot) {
@@ -130,6 +131,7 @@
             });
             console.log("Akhir Shop: " + sum);
             $("#shop").html(toRp(sum));
+//            alert("total=" + parseInt(sumService+sum))
         });
     }
     function ojol(tarif, start, end, tabel) {
