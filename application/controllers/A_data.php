@@ -61,4 +61,8 @@ class A_data extends CI_Controller {
     function cust_suspend(){
         $this->load->view('admin/data/customer_suspend');
     }
+    function cust_income(){
+        $this->load->view('admin/data/customer_income');
+        
+    }
 }

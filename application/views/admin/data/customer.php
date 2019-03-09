@@ -28,7 +28,7 @@
                             <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('cust_report')">Laporan</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-error" onclick="err()">Transaksi</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-error" onclick="setActiveButton('cust_income')">Transaksi</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-danger" id="ts-cyan" onclick="setActiveButton('cust_suspend')">Suspended</button>

@@ -1,5 +1,5 @@
 <div class="card-body">
-    <h5 class="card-title m-b-0">Data Mitra Ter-suspend</h5>
+    <h5 class="card-title m-b-0">Data Transaksi Mitra</h5>
 </div>
 <div class="table-responsive">    
     <table class="table" id="tblMitra">
@@ -7,14 +7,12 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Foto</th>
-                <th scope="col">Email</th>
                 <th scope="col">Nama</th>
-                <th scope="col">Alamat</th>
                 <th scope="col">Transaksi</th>
                 <th scope="col">Total Transaksi</th>
             </tr>
         </thead>
-        <tbody>                            
+        <tbody>
         </tbody>
     </table>
 </div>
@@ -27,7 +25,6 @@
 
     databaseRef.once('value', function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
-            var uid = childSnapshot.val().uid;
 
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
@@ -35,17 +32,15 @@
             var row = tbl.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
             var cellFoto = row.insertCell(1);
-            var cellEmail = row.insertCell(2);
-            var cellNama = row.insertCell(3);
-            var cellAlamat = row.insertCell(4);
-            var cellJumlah = row.insertCell(5);
-            var cellAction = row.insertCell(6);
+            var cellNama = row.insertCell(2);
+            var cellJumlah = row.insertCell(3);
+            var cellAction = row.insertCell(4);
             cellNo.appendChild(document.createTextNode(rowIndex));
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
-            cellEmail.appendChild(document.createTextNode(childData.email_mitra));
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
-            cellAlamat.appendChild(document.createTextNode(childData.alamat_mitra));
-            cellJumlah.innerHTML = "Service:<span id='service'></span><br>Shop:<span id='shop'></span><br>mi-Express:<span id='express'></span>";
+            cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
+                    +"<tr><td><span id='service'></span></td><td><span id='shop'></span></td><td><span id='express'>"          
+                    +"</span></td><td><span id='car'></span></td><td><span id='bike'></span></td></tr></table>";
             cellAction.innerHTML = "<span id='total'></span>";
 
             tarif(childData.uid);
@@ -69,7 +64,7 @@
                 var tarif = parseInt(childSnapshot.val().tarif);
 
                 service(tarif, uid);
-                console.log("tarif: " +tarif +" + uid: " + uid);
+                console.log("tarif: " + tarif + " + uid: " + uid);
 
             });
         });
@@ -94,7 +89,9 @@
 
             });
             console.log("Akhir Service: " + sum);
+            console.log("List: " + snapshot.numChildren());
             $("#service").html(toRp(sum));
+            
             shop(tarif, uid, sum);
         });
     }
@@ -108,7 +105,7 @@
                 var harga = childData.price_shop;
                 var ship = parseInt(childData.ship_shop);
                 var percent = tarif / 100;
-                var sub = (harga*parseInt(childData.qty)) + ship;
+                var sub = (harga * parseInt(childData.qty)) + ship;
 
                 var pendapatan = sub - (percent * sub);
 
@@ -119,7 +116,7 @@
             });
             console.log("Akhir Shop: " + sum);
             $("#shop").html(toRp(sum));
-            express(tarif,uid, sum+total);
+            express(tarif, uid, sum + total);
         });
     }
     function express(tarif, uid, total) {
@@ -141,7 +138,52 @@
             });
             console.log("Akhir Express : " + sum);
             $("#express").html(toRp(sum));
-            $("#total").html(toRp(sum+total));
+            bike(tarif, uid, sum + total)
+        });
+    }
+    function bike(tarif, uid, total) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/mibike').orderByChild('driver').equalTo(uid);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = parseInt(childData.harga);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = harga - (percent * harga);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Express : " + sum);
+            $("#bike").html(toRp(sum));
+            car(tarif, uid, sum + total);
+        });
+
+    }
+    function car(tarif, uid, total) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/micar').orderByChild('driver').equalTo(uid);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = parseInt(childData.harga);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = harga - (percent * harga);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Express : " + sum);
+            $("#car").html(toRp(sum));
+            $("#total").html(toRp(sum + total));
         });
     }
 

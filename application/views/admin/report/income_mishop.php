@@ -30,10 +30,10 @@
                     <td>mi-Express</td>
                     <td><span id="miexpress"></span></td>
                 </tr>
-<!--                <tr>
-                    <td><strong>Total Pendapatan</strong></td>
-                    <td><span id="total"></span></td>
-                </tr>-->
+                <tr>
+                    <td><strong>Total Pendapatan Mishop</strong></td>
+                    <td><strong><span id="total"></span></strong></td>
+                </tr>
             </tbody>
         </table>
     </div>

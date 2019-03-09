@@ -6,7 +6,7 @@ class Welcome extends CI_Controller {
 
     public function index() {
         $data['title'] = "Mi Shop Registration";
-        $this->load->view('mitra/daftar', $data);
+        $this->load->view('mitra/register_complete', $data);
     }
     function auth(){
         $this->load->view('mitra/signup_auth');

@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Favicon icon -->
-        <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url() ?>assets/admin/assets/images/favicon.png">
+        <link rel="icon" type="image/png"  href="<?php echo base_url(); ?>assets/profil/logo.png">
         <title><?php echo $title;?></title>
         <!-- Custom CSS -->
         <link href="<?php echo base_url() ?>assets/admin/dist/css/style.min.css" rel="stylesheet">
