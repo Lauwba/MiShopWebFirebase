@@ -74,5 +74,14 @@ class Etc extends CI_Model {
         $tgl_oke = $hari . ' ' . $nama_bulan . ' ' . $tahun;
         return $tgl_oke;
     }
+    
+    function prov(){
+        $query = $this->db->query("Select * from provinces");
+        return $query->result();
+    }
+    function kab($id){
+        $query = $this->db->query("Select * from regencies where province_id='$id'");
+        return $query->result();
+    }
 
 }

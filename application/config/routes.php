@@ -67,12 +67,13 @@ $route['topup'] = '/Saldo/index';
 $route['topup-mitra'] = '/Saldo/topup_mitra';
 $route['tarik-mitra'] = '/Saldo/tarik_mitra';
 $route['notifikasi'] = '/A_notif/index';
-$route['kritik-saran'] = '/Report/saran';
 $route['laporan-pendapatan'] = '/Report/income_mishop';
 $route['laporan-mitra'] = '/Report/income_mitra';
 $route['registrasi-mitra'] = '/A_data/registrasi_mitra';
 $route['mitra'] = '/A_data/mitra';
 $route['customer'] = '/A_data/customer';
+$route['saran-customer'] = '/Report/saran_c';
+$route['saran-mitra'] = '/Report/saran_m';
 
 /* END ADMIN */
 

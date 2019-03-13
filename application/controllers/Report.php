@@ -33,8 +33,12 @@ class Report extends CI_Controller{
         $data['title'] = "Pendapatan Mitra";
         $this->load->view('admin/report/income_mitra', $data);
     }
-    function saran(){
-        $data['title'] = "Kritik Dan Saran";
-        $this->load->view('admin/report/saran', $data);
+    function saran_c(){
+        $data['title'] = "Kritik Dan Saran Customer";
+        $this->load->view('admin/report/saran_customer', $data);
+    }
+    function saran_m(){
+        $data['title'] = "Kritik Dan Saran Mitra";
+        $this->load->view('admin/report/saran_mitra', $data);
     }
 }

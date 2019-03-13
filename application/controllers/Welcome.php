@@ -11,5 +11,14 @@ class Welcome extends CI_Controller {
     function auth(){
         $this->load->view('mitra/signup_auth');
     }
+    function kabupaten($id){
+        $kab = $this->Etc->kab($id);
+        $data = "<option value=''> --- Pilih Kabupaten --- </option>";
+        foreach ($kab as $k) {
+            $data .= "<option value='" . $k->id . "'>"
+                    . $k->name . "</option>";
+        }
+        echo $data;
+    }
 
 }

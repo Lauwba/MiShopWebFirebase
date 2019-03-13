@@ -123,6 +123,12 @@
                                 </ul>
                             </li>
                             <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo site_url('notifikasi'); ?>" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Notifikasi</span></a></li>
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-message-outline"></i><span class="hide-menu">Kritik & Saran </span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href="<?php echo site_url('saran-customer'); ?>" class="sidebar-link"><i class="mdi mdi-emoticon"></i><span class="hide-menu"> Customer </span></a></li>
+                                    <li class="sidebar-item"><a href="<?php echo site_url('saran-mitra'); ?>" class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span class="hide-menu"> Mitra </span></a></li>
+                                </ul>
+                            </li>                         
                             <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Laporan </span></a>
                                 <ul aria-expanded="false" class="collapse  first-level">
                                     <li class="sidebar-item"><a href="<?php echo site_url('laporan-pendapatan'); ?>" class="sidebar-link"><i class="mdi mdi-eye"></i><span class="hide-menu"> Laporan Pedapatan </span></a></li>

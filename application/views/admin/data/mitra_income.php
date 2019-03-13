@@ -28,6 +28,8 @@
 
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
+            
+            var uid = childData.uid;
 
             var row = tbl.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
@@ -39,11 +41,11 @@
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
             cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
-                    +"<tr><td><span id='service'></span></td><td><span id='shop'></span></td><td><span id='express'>"          
-                    +"</span></td><td><span id='car'></span></td><td><span id='bike'></span></td></tr></table>";
-            cellAction.innerHTML = "<span id='total'></span>";
+                    +"<tr><td><span id='service"+uid+"'></span></td><td><span id='shop"+uid+"'></span></td><td><span id='express"+uid+"'>"          
+                    +"</span></td><td><span id='car"+uid+"'></span></td><td><span id='bike"+uid+"'></span></td></tr></table>";
+            cellAction.innerHTML = "<span id='total"+uid+"'></span>";
 
-            tarif(childData.uid);
+            tarif(uid);
 
             rowIndex = rowIndex + 1;
         });
@@ -90,7 +92,7 @@
             });
             console.log("Akhir Service: " + sum);
             console.log("List: " + snapshot.numChildren());
-            $("#service").html(toRp(sum));
+            $("#service"+uid).html(toRp(sum));
             
             shop(tarif, uid, sum);
         });
@@ -115,7 +117,7 @@
 
             });
             console.log("Akhir Shop: " + sum);
-            $("#shop").html(toRp(sum));
+            $("#shop"+uid).html(toRp(sum));
             express(tarif, uid, sum + total);
         });
     }
@@ -137,7 +139,7 @@
 
             });
             console.log("Akhir Express : " + sum);
-            $("#express").html(toRp(sum));
+            $("#express"+uid).html(toRp(sum));
             bike(tarif, uid, sum + total)
         });
     }
@@ -159,7 +161,7 @@
 
             });
             console.log("Akhir Express : " + sum);
-            $("#bike").html(toRp(sum));
+            $("#bike"+uid).html(toRp(sum));
             car(tarif, uid, sum + total);
         });
 
@@ -182,8 +184,8 @@
 
             });
             console.log("Akhir Express : " + sum);
-            $("#car").html(toRp(sum));
-            $("#total").html(toRp(sum + total));
+            $("#car"+uid).html(toRp(sum));
+            $("#total"+uid).html(toRp(sum + total));
         });
     }
 

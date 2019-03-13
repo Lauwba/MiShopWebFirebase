@@ -54,7 +54,7 @@
         </div>
     </div>
 
-<!--    <div class="row">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -62,21 +62,21 @@
                         <div class="col-4">
                             <div class="bg-dark p-10 text-white text-center">
                                 <i class="fa fa-plus m-b-5 font-16"></i>
-                                <h5 class="m-b-0 m-t-5">2540</h5>
+                                <h5 class="m-b-0 m-t-5"><span id="day"></span></h5>
                                 <small class="font-light">Pendapatan Hari ini</small>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="bg-dark p-10 text-white text-center">
                                 <i class="fa fa-plus m-b-5 font-16"></i>
-                                <h5 class="m-b-0 m-t-5">120</h5>
+                                <h5 class="m-b-0 m-t-5"><span id="month"></span></h5>
                                 <small class="font-light">Pendapatan/30 hari</small>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="bg-dark p-10 text-white text-center">
                                 <i class="fa fa-plus m-b-5 font-16"></i>
-                                <h5 class="m-b-0 m-t-5">656</h5>
+                                <h5 class="m-b-0 m-t-5"><span id="year"></span></h5>
                                 <small class="font-light">Pendapatan/1 Tahun</small>
                             </div>
                         </div>
@@ -84,8 +84,8 @@
                 </div>
             </div>
         </div>
-    </div>-->
-    
+    </div>
+
 </div>
 <?php $this->load->view('admin/f_admin'); ?>
 <?php $this->load->view('admin/dashboard/modal_logo'); ?>
@@ -93,6 +93,9 @@
 
     user("mitra");
     user("customer");
+    day();
+    month();
+    year();
 
     function add_logo()
     {
@@ -100,9 +103,159 @@
     }
 
     function user(tabel) {
-        firebase.database().ref('/mitra').orderByChild('tgl_daftar').once('value').then(snapshot => {
+        firebase.database().ref('/'+tabel).orderByChild('tgl_daftar').once('value').then(snapshot => {
             var row = snapshot.numChildren();
             $('#' + tabel).html(row);
+        });
+    }
+
+    function day() {
+        var today = new Date();
+        var now = today.setHours(0, 0, 0, 0);
+
+        var endNow = today.setHours(23, 59, 59, 999);
+        tarif(now, endNow, "day");
+    }
+    function month() {
+        var ourDate = new Date();
+        var pastDate = ourDate.getDate() - 30;
+        var start = ourDate.setDate(pastDate);
+
+        var today = new Date();
+        var end = today.setHours(23, 59, 59, 999);
+        tarif(start, end, "month");
+    }
+    function year() {
+        var d = new Date();
+        var start = d.setFullYear(d.getFullYear(), d.getMonth() - 12);
+
+        var today = new Date();
+        var endNow = today.setHours(23, 59, 59, 999);
+        tarif(start, endNow, "year");
+    }
+    function tarif(start, end, time) {
+        refTarif = firebase.database().ref('/tarif').orderByChild('tipe').equalTo('charge');
+
+        refTarif.once('value').then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var tarif = childSnapshot.val().tarif;
+
+                service(tarif, start, end, time);
+
+            });
+            $('body').loading('stop');
+        });
+    }
+    function service(tarif, start, end, time) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/serviceOrder').orderByChild('tanggal_order').startAt(start).endAt(end);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = childData.harga;
+                var ship = childData.ship;
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = percent * (harga + ship);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Service: " + sum);
+//            $("#service").html(toRp(sum));
+            shop(tarif, start, end, sum, time);
+        });
+    }
+    function shop(tarif, start, end, total, time) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/shoporder').orderByChild('tanggalOrder').startAt(start).endAt(end);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = childData.price_shop;
+                var ship = parseInt(childData.ship_shop);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = percent * ((harga * childData.qty) + ship);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Shop: " + sum);
+//            $("#shop").html(toRp(sum));
+            express(tarif, start, end, sum + total, time)
+        });
+    }
+    function express(tarif, start, end, total, time) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/miexpress').orderByChild('tanggal').startAt(start).endAt(end);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = parseInt(childData.harga);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = percent * (harga);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir miexpress: " + sum);
+//            $("#miexpress").html(toRp(sum));
+            bike(tarif, start, end, sum + total, time);
+        });
+    }
+    function bike(tarif, start, end, total, time) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/mibike').orderByChild('tanggal').startAt(start).endAt(end);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = parseInt(childData.harga);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = percent * (harga);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Bike: " + sum);
+//            $("#mibike").html(toRp(sum));
+            car(tarif, start, end, sum + total, time);
+        });
+    }
+    function car(tarif, start, end, total, time) {
+        var sum = 0;
+        databaseRef = firebase.database().ref('/micar').orderByChild('tanggal').startAt(start).endAt(end);
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+                var harga = parseInt(childData.harga);
+                var percent = parseInt(tarif) / 100;
+
+                var pendapatan = percent * (harga);
+
+                console.log("income: " + pendapatan);
+
+                sum = sum + pendapatan;
+
+            });
+            console.log("Akhir Car: " + sum);
+//            $("#micar").html(toRp(sum));
+            $("#" + time).html(toRp(sum + total));
         });
     }
 </script>
