@@ -78,10 +78,6 @@
 
                 service(tarif, start, end);
 
-//                ojol(tarif, start, end, 'mibike');
-//                ojol(tarif, start, end, 'miexpress');
-//                ojol(tarif, start, end, 'micar');
-
                 var url = "<?php echo site_url('Report/report_income_mishop/'); ?>" + mulai + '/' + akhir;
                 $('#reportData').load(url);
             });
@@ -95,15 +91,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.harga;
-                var ship = childData.ship;
-                var percent = parseInt(tarif) / 100;
+                if (childData.status === 4) {
+                    var harga = childData.harga;
+                    var ship = childData.ship;
+                    var percent = parseInt(tarif) / 100;
 
-                var pendapatan = percent * (harga + ship);
+                    var pendapatan = percent * (harga + ship);
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Service: " + sum);
@@ -118,16 +116,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.price_shop;
-                var ship = parseInt(childData.ship_shop);
-                var percent = parseInt(tarif) / 100;
+                if (childData.status_order_shop === 4) {
+                    var harga = childData.price_shop;
+                    var ship = parseInt(childData.ship_shop);
+                    var percent = parseInt(tarif) / 100;
 
-                var pendapatan = percent * ((harga * childData.qty) + ship);
+                    var pendapatan = percent * ((harga * childData.qty) + ship);
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
-
+                    sum = sum + pendapatan;
+                }
             });
             console.log("Akhir Shop: " + sum);
             $("#shop").html(toRp(sum));
@@ -141,14 +140,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
 
-                var pendapatan = percent * (harga);
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
+                    var percent = parseInt(tarif) / 100;
 
-                console.log("income: " + pendapatan);
+                    var pendapatan = percent * (harga);
 
-                sum = sum + pendapatan;
+                    console.log("income: " + pendapatan);
+
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir miexpress: " + sum);
@@ -163,14 +165,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
 
-                var pendapatan = percent * (harga);
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
+                    var percent = parseInt(tarif) / 100;
 
-                console.log("income: " + pendapatan);
+                    var pendapatan = percent * (harga);
 
-                sum = sum + pendapatan;
+                    console.log("income: " + pendapatan);
+
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Bike: " + sum);
@@ -185,41 +190,21 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
+                    var percent = parseInt(tarif) / 100;
 
-                var pendapatan = percent * (harga);
+                    var pendapatan = percent * (harga);
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Car: " + sum);
             $("#micar").html(toRp(sum));
-            $("#total").html(toRp(sum+total));
-        });
-    }
-
-    function ojol(tarif, start, end, tabel) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/' + tabel).orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
-
-                var pendapatan = percent * (harga);
-
-                console.log("income: " + pendapatan);
-
-                sum = sum + pendapatan;
-
-            });
-            console.log("Akhir " + tabel + ": " + sum);
-            $("#" + tabel).html(toRp(sum));
+            $("#total").html(toRp(sum + total));
         });
     }
 </script>

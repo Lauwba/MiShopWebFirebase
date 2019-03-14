@@ -210,10 +210,6 @@
         $('[name="provinsi"]').change(function () {
             var url = "<?php echo site_url('Welcome/kabupaten'); ?>/" + $(this).val();
             $('[name="kabupaten"]').load(url);
-
-//            var cntrol = $(this);
-//            var Prov = cntrol.find(':selected').data('prov');
-//            $('[name="country"]').val(Prov);
             return false;
         });
     });

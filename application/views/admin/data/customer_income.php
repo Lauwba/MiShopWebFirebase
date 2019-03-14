@@ -28,9 +28,9 @@
 
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
-            
+
             var uid = childData.uid;
-            
+
             var row = tbl.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
             var cellFoto = row.insertCell(1);
@@ -41,9 +41,9 @@
             cellFoto.innerHTML = "<img src='" + childData.fotoCustomer + "' style='width:100px'>";
             cellNama.appendChild(document.createTextNode(childData.nama));
             cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
-                    +"<tr><td><span id='service"+uid+"'></span></span></td><td><span id='shop"+uid+"'></span></td><td><span id='express"+uid+"'>"          
-                    +"</span></td><td><span id='car"+uid+"'></span></td><td><span id='bike"+uid+"'></span></td></tr></table>";
-            cellAction.innerHTML = "<span id='total"+uid+"'></span>";
+                    + "<tr><td><span id='service" + uid + "'></span></span></td><td><span id='shop" + uid + "'></span></td><td><span id='express" + uid + "'>"
+                    + "</span></td><td><span id='car" + uid + "'></span></td><td><span id='bike" + uid + "'></span></td></tr></table>";
+            cellAction.innerHTML = "<span id='total" + uid + "'></span>";
 
             service(uid);
 
@@ -66,17 +66,19 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.harga;
-                var ship = childData.ship;
-                var pendapatan = harga + ship;
+                if (childData.status === 4) {
+                    var harga = childData.harga;
+                    var ship = childData.ship;
+                    var pendapatan = harga + ship;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Service: " + sum);
-            $("#service"+uid).html(toRp(sum));
+            $("#service" + uid).html(toRp(sum));
             shop(uid, sum);
         });
     }
@@ -87,17 +89,18 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.price_shop;
-                var ship = parseInt(childData.ship_shop);
-                var pendapatan = (harga * parseInt(childData.qty)) + ship;
+                if (childData.status_order_shop === 4) {
+                    var harga = childData.price_shop;
+                    var ship = parseInt(childData.ship_shop);
+                    var pendapatan = (harga * parseInt(childData.qty)) + ship;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
-
+                    sum = sum + pendapatan;
+                }
             });
             console.log("Akhir Shop: " + sum);
-            $("#shop"+uid).html(toRp(sum));
+            $("#shop" + uid).html(toRp(sum));
             express(uid, sum + total);
         });
     }
@@ -108,15 +111,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var pendapatan = parseInt(childData.harga);
+                if (childData.status === 3) {
+                    var pendapatan = parseInt(childData.harga);
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Express : " + sum);
-            $("#express"+uid).html(toRp(sum));
+            $("#express" + uid).html(toRp(sum));
             bike(uid, sum + total)
         });
     }
@@ -127,15 +132,17 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var pendapatan = parseInt(childData.harga);
-                
-                console.log("income: " + pendapatan);
+                if (childData.status === 3) {
+                    var pendapatan = parseInt(childData.harga);
 
-                sum = sum + pendapatan;
+                    console.log("income: " + pendapatan);
+
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Bike : " + sum);
-            $("#bike"+uid).html(toRp(sum));
+            $("#bike" + uid).html(toRp(sum));
             car(uid, sum + total);
         });
 
@@ -147,16 +154,18 @@
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var pendapatan = parseInt(childData.harga);
+                if (childData.status === 3) {
+                    var pendapatan = parseInt(childData.harga);
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Car : " + sum);
-            $("#car"+uid).html(toRp(sum));
-            $("#total"+uid).html(toRp(sum + total));
+            $("#car" + uid).html(toRp(sum));
+            $("#total" + uid).html(toRp(sum + total));
         });
     }
 

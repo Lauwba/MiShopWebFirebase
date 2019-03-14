@@ -28,7 +28,7 @@
 
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
-            
+
             var uid = childData.uid;
 
             var row = tbl.insertRow(rowIndex);
@@ -41,11 +41,11 @@
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
             cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
-                    +"<tr><td><span id='service"+uid+"'></span></td><td><span id='shop"+uid+"'></span></td><td><span id='express"+uid+"'>"          
-                    +"</span></td><td><span id='car"+uid+"'></span></td><td><span id='bike"+uid+"'></span></td></tr></table>";
-            cellAction.innerHTML = "<span id='total"+uid+"'></span>";
+                    + "<tr><td><span id='service" + uid + "'></span></td><td><span id='shop" + uid + "'></span></td><td><span id='express" + uid + "'>"
+                    + "</span></td><td><span id='car" + uid + "'></span></td><td><span id='bike" + uid + "'></span></td></tr></table>";
+            cellAction.innerHTML = "<span id='total" + uid + "'></span>";
 
-            tarif(uid);
+            service(uid);
 
             rowIndex = rowIndex + 1;
         });
@@ -59,133 +59,126 @@
             location.reload();
         });
     }
-    function tarif(uid) {
-        refTarif = firebase.database().ref('/tarif').orderByChild('tipe').equalTo('charge');
-        refTarif.once('value').then(function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var tarif = parseInt(childSnapshot.val().tarif);
-
-                service(tarif, uid);
-                console.log("tarif: " + tarif + " + uid: " + uid);
-
-            });
-        });
-    }
-    function service(tarif, uid) {
+    function service(uid) {
         var sum = 0;
         databaseRef = firebase.database().ref('/serviceOrder').orderByChild('uid').equalTo(uid);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.harga;
-                var ship = childData.ship;
-                var percent = tarif / 100;
-                var total = harga + ship;
+                if (childData.status === 4) {
 
-                var pendapatan = total - (percent * total);
+                    var harga = childData.harga;
+                    var ship = childData.ship;
+                    var total = harga + ship;
 
-                console.log("income: " + pendapatan);
+                    var pendapatan = total;
 
-                sum = sum + pendapatan;
+                    console.log("income: " + pendapatan);
+
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Service: " + sum);
             console.log("List: " + snapshot.numChildren());
-            $("#service"+uid).html(toRp(sum));
-            
-            shop(tarif, uid, sum);
+            $("#service" + uid).html(toRp(sum));
+
+            shop(uid, sum);
         });
     }
-    function shop(tarif, uid, total) {
+    function shop(uid, total) {
         var sum = 0;
         databaseRef = firebase.database().ref('/shoporder').orderByChild('uid').equalTo(uid);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = childData.price_shop;
-                var ship = parseInt(childData.ship_shop);
-                var percent = tarif / 100;
-                var sub = (harga * parseInt(childData.qty)) + ship;
+                if (childData.status_order_shop === 4) {
+                    var harga = childData.price_shop;
+                    var ship = parseInt(childData.ship_shop);
+                    var sub = (harga * parseInt(childData.qty)) + ship;
 
-                var pendapatan = sub - (percent * sub);
+                    var pendapatan = sub;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
-
+                    sum = sum + pendapatan;
+                }
             });
             console.log("Akhir Shop: " + sum);
-            $("#shop"+uid).html(toRp(sum));
-            express(tarif, uid, sum + total);
+            $("#shop" + uid).html(toRp(sum));
+            express(uid, sum + total);
         });
     }
-    function express(tarif, uid, total) {
+    function express(uid, total) {
         var sum = 0;
         databaseRef = firebase.database().ref('/miexpress').orderByChild('uid').equalTo(uid);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
 
-                var pendapatan = harga - (percent * harga);
+                    var pendapatan = harga;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Express : " + sum);
-            $("#express"+uid).html(toRp(sum));
-            bike(tarif, uid, sum + total)
+            $("#express" + uid).html(toRp(sum));
+            bike(uid, sum + total)
         });
     }
-    function bike(tarif, uid, total) {
+    function bike(uid, total) {
         var sum = 0;
         databaseRef = firebase.database().ref('/mibike').orderByChild('driver').equalTo(uid);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
 
-                var pendapatan = harga - (percent * harga);
+                    var pendapatan = harga;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Express : " + sum);
-            $("#bike"+uid).html(toRp(sum));
-            car(tarif, uid, sum + total);
+            $("#bike" + uid).html(toRp(sum));
+            car(uid, sum + total);
         });
 
     }
-    function car(tarif, uid, total) {
+    function car(uid, total) {
         var sum = 0;
         databaseRef = firebase.database().ref('/micar').orderByChild('driver').equalTo(uid);
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-                var harga = parseInt(childData.harga);
-                var percent = parseInt(tarif) / 100;
+                if (childData.status === 3) {
+                    var harga = parseInt(childData.harga);
 
-                var pendapatan = harga - (percent * harga);
+                    var pendapatan = harga;
 
-                console.log("income: " + pendapatan);
+                    console.log("income: " + pendapatan);
 
-                sum = sum + pendapatan;
+                    sum = sum + pendapatan;
+                }
 
             });
             console.log("Akhir Express : " + sum);
-            $("#car"+uid).html(toRp(sum));
-            $("#total"+uid).html(toRp(sum + total));
+            $("#car" + uid).html(toRp(sum));
+            $("#total" + uid).html(toRp(sum + total));
         });
     }
 
