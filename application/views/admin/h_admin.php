@@ -20,9 +20,6 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/admin/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/admin/assets/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
-        <script src="<?php echo base_url('assets/admin//ckeditor/ckeditor.js') ?>"></script>
-        <script src="<?php echo base_url('assets/admin/ckfinder/ckfinder.js') ?>"></script>
-        
         <!--/*swal*/-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.4/dist/sweetalert2.all.min.js"></script>
 

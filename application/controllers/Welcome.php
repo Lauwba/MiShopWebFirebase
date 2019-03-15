@@ -15,7 +15,7 @@ class Welcome extends CI_Controller {
         $kab = $this->Etc->kab($id);
         $data = "<option value=''> --- Pilih Kabupaten --- </option>";
         foreach ($kab as $k) {
-            $data .= "<option value='" . $k->id . "'>"
+            $data .= "<option value='" . $k->name . "'>"
                     . $k->name . "</option>";
         }
         echo $data;

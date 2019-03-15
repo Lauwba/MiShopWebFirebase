@@ -11,12 +11,20 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/mitra/complete/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
         <!-- Main Style Css -->
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/mitra/complete/css/style.css"/>
+        
+        <!-- loading: http://carlosbonetti.github.io/jquery-loading/ -->
+        <link rel="stylesheet" href="<?php echo MITRA; ?>css/loading.css">        
+
+        <!--/swal/-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.4/dist/sweetalert2.all.min.js"></script>
+        <?php $this->load->view('firebase_db'); ?>
     </head>
     <body>
         <div class="page-content">
             <div class="form-v1-content">
                 <div class="wizard-form">
                     <form class="form-register" action="#" method="post">
+                        <input class="text" type="hidden" name="tgl_daftar" value="<?php echo $this->Id_m->id_mitra(); ?>">
                         <div id="form-total">
                             <!-- SECTION 1 -->
                             <h2>
@@ -38,7 +46,7 @@
                                         <div class="form-holder">
                                             <fieldset>
                                                 <legend>Email</legend>
-                                                <input type="text" name="email_mitra" class="form-control" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" placeholder="example@email.com" required>
+                                                <input type="text" name="mail_mitra" class="form-control" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" placeholder="example@email.com" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -52,7 +60,7 @@
                                         <div class="form-holder">
                                             <fieldset>
                                                 <legend>Tanggal Lahir <small>sesuai KTP</small>:</legend>
-                                                <input type="date" class="form-control" name="tanggal_lahir" required>
+                                                <input type="date" class="form-control" name="tgl_lahir" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -65,9 +73,10 @@
                                                 $provinsi = $this->Etc->prov();
                                                 foreach ($provinsi as $p) {
                                                     ?>
-                                                    <option value="<?php echo $p->id; ?>"><?php echo $p->name; ?></option>
+                                                    <option value="<?php echo $p->id; ?>" data-nama="<?php echo $p->name; ?>"><?php echo $p->name; ?></option>
                                                 <?php } ?>
                                             </select>
+                                            <input type="hidden" name="nama_provinsi">
                                         </div>
                                         <div class="form-holder">
                                             <label class="special-label">&nbsp</label>
@@ -79,7 +88,7 @@
 
                                     <div class="form-row">
                                         <div class="form-holder form-holder-2">
-                                            <textarea class="form-control input-border" name="detail_alamat" placeholder="Alamat Lengkap" required></textarea>
+                                            <textarea class="form-control input-border" name="alamat_mitra" placeholder="Alamat Lengkap" required></textarea>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -91,24 +100,24 @@
                                         <div class="form-holder">
                                             <fieldset>
                                                 <legend>Foto Scan KTP</legend>
-                                                <input type="file" class="form-control" name="ktp" required>
+                                                <input type="file" class="form-control" name="ktp" id="ktp" required>
                                             </fieldset>
                                         </div>
                                         <div class="form-holder">
                                             <fieldset>
                                                 <legend>Foto Diri</legend>
-                                                <input type="file" class="form-control" name="foto_diri" required>
+                                                <input type="file" class="form-control" name="diri" id="diri" required>
                                             </fieldset>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-holder form-holder-2">
-                                            <input type="text" class="form-control input-border" name="password" placeholder="Password" required>
+                                            <input type="password" class="form-control input-border" name="pass_mitra" placeholder="Password" required>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-holder form-holder-2">
-                                            <input type="text" class="form-control input-border" name="re_password" placeholder="Konfirmasi Password" required>
+                                            <input type="password" class="form-control input-border" name="repass_mitra" placeholder="Konfirmasi Password" required>
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +154,7 @@
                                         <div class="form-holder form-holder-2">
                                             <fieldset>
                                                 <legend>Foto Plat Nomor Kendaraan</legend>
-                                                <input type="file" class="form-control" name="plat" required>
+                                                <input type="file" class="form-control" name="plat" id="plat" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -153,7 +162,7 @@
                                         <div class="form-holder form-holder-2">
                                             <fieldset>
                                                 <legend>Scan SKCK</legend>
-                                                <input type="file" class="form-control" name="skck" required>
+                                                <input type="file" class="form-control" name="skck" id="skck" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -161,7 +170,7 @@
                                         <div class="form-holder form-holder-2">
                                             <fieldset>
                                                 <legend>Scan STNK</legend>
-                                                <input type="file" class="form-control" name="stnk" required>
+                                                <input type="file" class="form-control" name="stnk" id="stnk" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -169,7 +178,7 @@
                                         <div class="form-holder form-holder-2">
                                             <fieldset>
                                                 <legend>Scan SIM C</legend>
-                                                <input type="file" class="form-control" name="simc" required>
+                                                <input type="file" class="form-control" name="sim" id="sim" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -177,7 +186,7 @@
                                         <div class="form-holder form-holder-2">
                                             <fieldset>
                                                 <legend>Foto Kendaraan dengan stiker Mishop</legend>
-                                                <input type="file" class="form-control" name="stiker" required>
+                                                <input type="file" class="form-control" name="stiker" id="stiker" required>
                                             </fieldset>
                                         </div>
                                     </div>
@@ -203,11 +212,17 @@
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/jquery-3.3.1.min.js"></script>
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/jquery.steps.js"></script>
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/main.js"></script>
+        <script src="<?php echo MITRA; ?>js/loading.js"></script>
     </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
 <script>
     $(document).ready(function () {
         $('[name="provinsi"]').change(function () {
+            var cntrol = $(this);
+            var Prov = cntrol.find(':selected').data('nama');
+            $('[name="nama_provinsi"]').val(Prov);
+            
+            
             var url = "<?php echo site_url('Welcome/kabupaten'); ?>/" + $(this).val();
             $('[name="kabupaten"]').load(url);
             return false;
