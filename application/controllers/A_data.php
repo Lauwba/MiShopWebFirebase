@@ -52,6 +52,9 @@ class A_data extends CI_Controller {
     function mitra_rate(){
         $this->load->view('admin/data/mitra_rate');
     }
+    function mitra_wilayah(){
+        $this->load->view('admin/data/mitra_wilayah');
+    }
     function cust_all(){
         $this->load->view('admin/data/customer_new');
     }
@@ -62,7 +65,9 @@ class A_data extends CI_Controller {
         $this->load->view('admin/data/customer_suspend');
     }
     function cust_income(){
-        $this->load->view('admin/data/customer_income');
-        
+        $this->load->view('admin/data/customer_income');        
+    }
+    function cust_wilayah(){
+        $this->load->view('admin/data/customer_wilayah');
     }
 }

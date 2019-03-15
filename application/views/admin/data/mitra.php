@@ -36,9 +36,9 @@
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-info" id="ts-cyan" onclick="setActiveButton('mitra_suspend')">Suspended</button>
                         </div>
-<!--                        <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan">Cari</button>
-                        </div>-->
+                        <div class="col-md-2 col-sm-12">
+                            <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan" onclick="setActiveButton('mitra_wilayah')">Wilayah</button>
+                        </div>
                     </div>
                 </div>
             </div>

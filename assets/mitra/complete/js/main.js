@@ -145,11 +145,13 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
     var nik = $('[name="nik_mitra"]').val();
     var kab = $('[name="kabupaten"]').val();
     var prov = $('[name="nama_provinsi"]').val();
+    var nama = $('[name="nama_mitra"]').val();
 
     var data = {
         id_mitra: id,
         tgl_daftar: tgl_daftar,
         email_mitra: email,
+        nama_mitra:nama,
         alamat_mitra: alamat,
         no_tel: notelp,
         tgl_lahir: tgl_lahir,
@@ -166,7 +168,8 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
         stiker: stiker,
         masaSuspend: 0,
         kabupaten: kab,
-        provinsi : prov
+        provinsi : prov,
+        uid:""
     };
 
     var updates = {};

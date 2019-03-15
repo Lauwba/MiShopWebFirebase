@@ -33,6 +33,9 @@
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-danger" id="ts-cyan" onclick="setActiveButton('cust_suspend')">Suspended</button>
                         </div>
+                        <div class="col-md-2 col-sm-12">
+                            <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan" onclick="err()">Wilayah</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,6 +80,6 @@
         $("#loadData").load(url);
     }
     function err(){
-        alert("Fungsi Belum Berjalan");
+        alert("Fungsi Belum Tersedia");
     }
 </script>
