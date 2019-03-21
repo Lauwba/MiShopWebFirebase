@@ -197,7 +197,8 @@
                                                 <img src="<?php echo base_url() ?>assets/mitra/complete/images/form-v1-icon-2.png" alt="pay-1">
                                             </label>
                                             <div class="plan-total">
-                                                <span class="plan-title">Rp 250.089,-</span>
+                                                <input type="hidden" name="unik" value="<?php echo $rand = rand(111,999); ?>"> 
+                                                <span class="plan-title">Rp 250.<?php echo $rand; ?>,-</span>
                                                 <p class="plan-text">Silahkan Transfer sejumlah diatas ke Rekening Mishop(Mandiri) 05458245521.</p>
                                             </div>
                                         </div>

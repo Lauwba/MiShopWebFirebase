@@ -10,6 +10,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Dokumen</th>
+                <th scope="col">Kode Unik</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -34,12 +35,14 @@
             var cellEmail = row.insertCell(2);
             var cellNama = row.insertCell(3);
             var cellDok = row.insertCell(4);
-            var cellAction = row.insertCell(5);
+            var cellUnik = row.insertCell(5);
+            var cellAction = row.insertCell(6);
 
             cellNo.appendChild(document.createTextNode(rowIndex));
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
             cellEmail.appendChild(document.createTextNode(childData.email_mitra));
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
+            cellUnik.appendChild(document.createTextNode(childData.unik));
             cellDok.innerHTML = "<table><tr><td><a target='_blank' id='ktp" + uid + "'>KTP</a></td><td><a target='_blank' id='diri" + uid + "'>Diri</a></td><td>"
                     +"<a target='_blank' id='plat" + uid + "'>"
                     + "Plat</a></td><td><a target='_blank' id='skck" + uid + "'>SKCK</a></td><td><a target='_blank' id='stnk" + uid + "'>STNK</a></td>"

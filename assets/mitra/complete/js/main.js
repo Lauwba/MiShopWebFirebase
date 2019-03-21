@@ -146,6 +146,7 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
     var kab = $('[name="kabupaten"]').val();
     var prov = $('[name="nama_provinsi"]').val();
     var nama = $('[name="nama_mitra"]').val();
+    var unik = $('[name="unik"]').val();
 
     var data = {
         id_mitra: id,
@@ -169,7 +170,8 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
         masaSuspend: 0,
         kabupaten: kab,
         provinsi : prov,
-        uid:""
+        uid:"",
+        unik: unik
     };
 
     var updates = {};

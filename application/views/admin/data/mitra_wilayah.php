@@ -29,14 +29,15 @@
     <h5 class="card-title m-b-0">Data Jumlah Mitra</h5>
 </div>
 <div class="table-responsive">    
-    <table class="table" id="tabelData">
+    <table class="table table-bordered" id="tabelData">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Provinsi</th>
-                <th scope="col">Jumlah User Aktif</th>
-                <th scope="col">Jumlah User Ter-Suspend</th>
-                <th scope="col">Jumlah User Terdaftar</th>
+                <th scope="col">Provinsi</th>                
+                <th scope="col">User Aktif</th>
+                <th scope="col">User Ter-Suspend</th>
+                <th scope="col">User Non Aktif</th>
+                <th scope="col">Jumlah</th>
             </tr>
         </thead>
         <tbody> 
@@ -48,6 +49,7 @@
             <script>
                 user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `1`);
                 user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `2`);
+                user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `0`);
                 userAll(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`);
             </script>
             <tr>
@@ -55,6 +57,7 @@
                 <td><?php echo $p->name; ?></td>
                 <td><span id="1<?php echo $p->id; ?>"></span></td>
                 <td><span id="2<?php echo $p->id; ?>"></span></td>
+                <td><span id="0<?php echo $p->id; ?>"></span></td>
                 <td><span id="<?php echo $p->id; ?>"></span></td>
             </tr>
 

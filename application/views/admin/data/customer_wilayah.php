@@ -29,7 +29,7 @@
     <h5 class="card-title m-b-0">Data Customer</h5>
 </div>
 <div class="table-responsive">    
-    <table class="table" id="tabelData">
+    <table class="table table-bordered" id="tabelData">
         <thead>
             <tr>
                 <th scope="col">#</th>
