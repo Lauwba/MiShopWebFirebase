@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/mitra/complete/css/style.css"/>
         
         <!-- loading: http://carlosbonetti.github.io/jquery-loading/ -->
-        <link rel="stylesheet" href="<?php echo MITRA; ?>css/loading.css">        
+        <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/mitra/css/loading.css">        
 
         <!--/swal/-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.32.4/dist/sweetalert2.all.min.js"></script>
@@ -199,7 +199,13 @@
                                             <div class="plan-total">
                                                 <input type="hidden" name="unik" value="<?php echo $rand = rand(111,999); ?>"> 
                                                 <span class="plan-title">Rp 250.<?php echo $rand; ?>,-</span>
-                                                <p class="plan-text">Silahkan Transfer sejumlah diatas ke Rekening Mishop(Mandiri) 05458245521.</p>
+                                                <?php
+                                                $profile = $this->Crud_m->select('profile');
+                                                foreach ($profile as $p){
+                                                ?>
+                                                <p class="plan-text">Silahkan Transfer sejumlah diatas ke Rekening <?php echo $p->bank; ?> 
+                                                    atas nama <?php echo $p->atas_nama; ?> <strong><?php echo $p->no_rek; ?></strong>.</p>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -213,7 +219,7 @@
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/jquery-3.3.1.min.js"></script>
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/jquery.steps.js"></script>
         <script src="<?php echo base_url() ?>assets/mitra/complete/js/main.js"></script>
-        <script src="<?php echo MITRA; ?>js/loading.js"></script>
+        <script src="<?php echo base_url(); ?>assets/mitra/js/loading.js"></script>
     </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
 <script>

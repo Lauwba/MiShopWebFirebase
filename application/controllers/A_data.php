@@ -70,4 +70,38 @@ class A_data extends CI_Controller {
     function cust_wilayah(){
         $this->load->view('admin/data/customer_wilayah');
     }
+    function rekening(){
+        $data['title'] = "Rekening Mishop";
+        $this->load->view('admin/data/rekening', $data);
+    }
+    function rekening_by($id) {
+        $data = $this->Crud_m->select_id('profile', 'id_profile', $id);
+        echo json_encode($data);
+    }
+    
+    function insert_rekening() {
+        $data = array(
+            'atas_nama' => $this->input->post('atas_nama'),
+            'bank' => $this->input->post('bank'),
+            'no_rek' => $this->input->post('no_rek'),
+        );
+        $this->Crud_m->insert('profile', $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    function update_rekening() {
+        $id = $this->input->post('id_profile');
+        $data = array(
+            'atas_nama' => $this->input->post('atas_nama'),
+            'bank' => $this->input->post('bank'),
+            'no_rek' => $this->input->post('no_rek'),
+        );
+        $this->Crud_m->update('profile', $data, 'id_profile', $id);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    function del_rekening($id) {
+        $this->Crud_m->delete('profile', 'id_profile', $id);
+        echo json_encode(array("status" => TRUE));
+    }
 }

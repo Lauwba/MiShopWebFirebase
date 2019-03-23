@@ -23,6 +23,8 @@ function daftar() {
     var pass = $('[name="pass_mitra"]').val();
     var repass = $('[name="repass_mitra"]').val();
     var email = $('[name="mail_mitra"]').val();
+    
+//   sendemail(email, "Febri", '021');
 
     if (pass !== repass) {
         Swal({
@@ -74,17 +76,17 @@ function upload(kode) {
     const tgl = (+new Date());
 
     const fileDiri = document.querySelector('#diri').files[0];
-    const nmDiri = "images_mitra/" + tgl + "/" +  kode + "_" + "diri";
+    const nmDiri = "images_mitra/" + tgl + "/" + kode + "_" + "diri";
     const fileKtp = document.querySelector('#ktp').files[0];
-    const nmKtp = "images_mitra/" + tgl + "/" +  kode + "_" + "ktp";
+    const nmKtp = "images_mitra/" + tgl + "/" + kode + "_" + "ktp";
     const filePlat = document.querySelector('#plat').files[0];
     const nmPlat = "images_mitra/" + tgl + "/" + kode + "_" + "plat";
     const fileSkck = document.querySelector('#skck').files[0];
     const nmSkck = "images_mitra/" + tgl + "/" + kode + "_" + "skck";
     const fileStnk = document.querySelector('#stnk').files[0];
-    const nmStnk = "images_mitra/" + tgl + "/" +  kode + "_" + "stnk";
+    const nmStnk = "images_mitra/" + tgl + "/" + kode + "_" + "stnk";
     const fileSim = document.querySelector('#sim').files[0];
-    const nmSim = "images_mitra/" + tgl + "/" +  kode + "_" + "sim";
+    const nmSim = "images_mitra/" + tgl + "/" + kode + "_" + "sim";
     const fileStiker = document.querySelector('#stiker').files[0];
     const nmStiker = "images_mitra/" + tgl + "/" + kode + "_" + "stiker";
 
@@ -152,7 +154,7 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
         id_mitra: id,
         tgl_daftar: tgl_daftar,
         email_mitra: email,
-        nama_mitra:nama,
+        nama_mitra: nama,
         alamat_mitra: alamat,
         no_tel: notelp,
         tgl_lahir: tgl_lahir,
@@ -169,8 +171,8 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
         stiker: stiker,
         masaSuspend: 0,
         kabupaten: kab,
-        provinsi : prov,
-        uid:"",
+        provinsi: prov,
+        uid: "",
         unik: unik
     };
 
@@ -186,5 +188,21 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
         showConfirmButton: false,
         timer: 1500
     });
+    sendemail(email, nama, unik);
     location.reload();
+}
+function sendemail(email,nama,unik) {
+    var url= "https://lauwba.com/mishop/Mitra/email";
+    // var url= "https://mishop.server411.tech/Mitra/email";
+    // var url= "<?php echo base_url('Mitra/email);?>";
+    console.log(url);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {email:email, nama:nama, unik:unik},
+        success: function (data) {
+            console.log(data);
+
+        }
+    })
 }

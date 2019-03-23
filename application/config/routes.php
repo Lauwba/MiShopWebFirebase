@@ -75,6 +75,7 @@ $route['mitra'] = '/A_data/mitra';
 $route['customer'] = '/A_data/customer';
 $route['saran-customer'] = '/Report/saran_c';
 $route['saran-mitra'] = '/Report/saran_m';
+$route['rekening'] = '/A_data/rekening';
 
 /* END ADMIN */
 

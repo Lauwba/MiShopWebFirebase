@@ -12,7 +12,7 @@
     </head>
     <body>
         <canvas id="canvas" width="500" height="500" ></canvas>
-        <input type="button" value="spin" onclick="spin();" style="float:left;" class="btn btn-dark">
+        <input type="button" value="spin" onclick="spin();" style="float:left;" class="btn btn-dark" id="btnSpin">
         <span id="result"></span>
         <input type="hidden" id="idMitra" value="<?php echo $id_mitra ?>">
         <input type="hidden" id="saldoAkhir">
@@ -24,7 +24,7 @@
             var colors = ["#D50000", "#6200EA", "#FFC400", "#6200EA",
                 "#FFC400", "#6200EA", "#FFC400", "#2962FF",
                 "#FF3D00", "#2962FF", "#049C00", "#2962FF", "#FF3D00", "#6200EA", "#FF3D00"];
-            var numbers = ["0", "10.000", "8.000", "2.000",
+            var numbers = ["1000", "10.000", "8.000", "2.000",
                 "9.000", "3.000", "10.000", "4.000",
                 "11.000", "5.000", "50.000", "6.000", "13.000", "7.000", "14.0000"];
 
@@ -96,6 +96,7 @@
                 spinTime = 0;
                 spinTimeTotal = Math.random() * 3 + 4 * 2500;
                 rotateWheel();
+                document.getElementById("btnSpin").style.visibility = "hidden";
             }
 
             function rotateWheel() {
@@ -120,13 +121,13 @@
                 ctx.textAlign = "center";
                 var text = numbers[index]
                 ctx.fillStyle = colors[index];
-//                document.getElementById("result").innerHTML = text;
                 Swal.fire(
                         text,
                         'Selamat!!',
                         'success'
                         );
                 addToSaldo(text);
+
                 ctx.restore();
             }
 
@@ -143,12 +144,36 @@
                 $("#saldoAkhir").val(akhir);
                 $("#saldoSkr").val(akhir);
 
+                insertSaldo(debit);
+
                 firebase.database().ref("mitra").orderByChild("id_mitra").equalTo(id_mitra).once("value", function (snapshot) {
                     snapshot.forEach(function (user) {
                         user.ref.child("saldo").set(akhir);
                     });
-                })
+                });
+            }
+            function insertSaldo(debit) {
+                var d = new Date();
+                var tgl = d.setHours(d.getHours());
 
+                var ket = "Spinner";
+                var id;
+
+                id = firebase.database().ref().child('transaksi_saldo').push().key;
+
+                var data = {
+                    id_trans_saldo: id,
+                    id_mitra: id_mitra,
+                    jumlah: debit,
+                    status: "Debit",
+                    ket_trans: ket,
+                    stat_deliver: 1,
+                    tgl_trans: tgl
+                };
+
+                var updates = {};
+                updates['/transaksi_saldo/' + id] = data;
+                firebase.database().ref().update(updates);
             }
 
 

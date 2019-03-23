@@ -109,7 +109,7 @@
                                     <li class="sidebar-item"><a href="<?php echo site_url('customer'); ?>" class="sidebar-link"><i class="mdi mdi-emoticon"></i><span class="hide-menu"> Customer </span></a></li>
                                     <li class="sidebar-item"><a href="<?php echo site_url('mitra'); ?>" class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span class="hide-menu"> Mitra </span></a></li>
                                     <li class="sidebar-item"><a href="<?php echo site_url('kritik-saran'); ?>" class="sidebar-link"><i class="mdi mdi-message-outline"></i><span class="hide-menu"> Kritik & Saran </span></a></li>
-                                    <!--<li class="sidebar-item"><a href="<?php echo site_url('registrasi-mitra'); ?>" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Registrasi Mitra </span></a></li>-->
+                                    <li class="sidebar-item"><a href="<?php echo site_url('rekening'); ?>" class="sidebar-link"><i class="mdi mdi-note-plus"></i><span class="hide-menu"> Rekening </span></a></li>
                                 </ul>
                             </li>
                             <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span class="hide-menu">Dompet </span></a>
