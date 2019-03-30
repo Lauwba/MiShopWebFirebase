@@ -2,7 +2,7 @@
     <div class="card-body">
         <!--content here-->
         <center>
-            <h4>Laporan Pedapatan Misop</h4> 
+            <h4>Laporan Pedapatan Perusahaan</h4> 
             <p>Periode <?php echo $this->Etc->tgl($start); ?> - <?php echo $this->Etc->tgl($end); ?></p>
         </center>
         <table class="table">

@@ -25,7 +25,7 @@
                             <button type="button" class="btn btn-lg btn-block btn-outline-success" onclick="setActiveButton('registrasi_mitra')">Registrasi</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('mitra_rate')">Laporan</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('mitra_rate')">Mitra</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-warning" id="ts-warning" onclick="setActiveButton('mitra_income')">Transaksi</button>

@@ -111,10 +111,13 @@
 
     function day() {
         var today = new Date();
-        var now = today.setHours(0, 0, 0, 0);
+        var now = today.setHours(0, 0, 0, 0);                    
 
         var endNow = today.setHours(23, 59, 59, 999);
         tarif(now, endNow, "day");
+        
+        console.log("Now: " +now);
+        console.log("End: " +endNow);
     }
     function month() {
         var ourDate = new Date();
@@ -178,11 +181,11 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 if (childData.status_order_shop === 4) {
-                    var harga = childData.price_shop;
+                    var add = childData.kenaikan;
                     var ship = parseInt(childData.ship_shop);
                     var percent = parseInt(tarif) / 100;
 
-                    var pendapatan = percent * ((harga * childData.qty) + ship);
+                    var pendapatan = percent * ((add * childData.qty) + ship);
 
                     console.log("income: " + pendapatan);
 

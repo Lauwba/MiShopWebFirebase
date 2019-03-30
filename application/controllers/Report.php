@@ -20,7 +20,7 @@ class Report extends CI_Controller{
     }
     //put your code here
     function income_mishop(){
-        $data['title'] = "Pendapatan Mishop";
+        $data['title'] = "Pendapatan Perusahaan";
         $this->load->view('admin/report/form_income_mishop', $data);
     }
     function report_income_mishop($start, $end){

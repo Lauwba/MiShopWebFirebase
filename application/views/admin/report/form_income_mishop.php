@@ -52,10 +52,9 @@
             </div>
         </div>
         <div class="col-12" id="reportData"></div>
+        
     </div>    
 </div>
-
-
 <?php $this->load->view('admin/f_admin'); ?>
 <script>
     $('#formPeriode').submit(function (e) {
@@ -68,7 +67,10 @@
         var akhir = $('[name="akhir"]').val();
 
         let start = new Date(mulai).getTime();
-        let end = new Date(akhir).getTime();
+        let end = new Date(akhir).setHours(23, 59, 59, 999);
+        
+        console.log("start: "+start);
+        console.log("end: "+end);
 
         refTarif = firebase.database().ref('/tarif').orderByChild('tipe').equalTo('charge');
 
@@ -117,11 +119,11 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 if (childData.status_order_shop === 4) {
-                    var harga = childData.price_shop;
+                    var add = childData.kenaikan;
                     var ship = parseInt(childData.ship_shop);
                     var percent = parseInt(tarif) / 100;
 
-                    var pendapatan = percent * ((harga * childData.qty) + ship);
+                    var pendapatan = percent * ((add * childData.qty) + ship);
 
                     console.log("income: " + pendapatan);
 

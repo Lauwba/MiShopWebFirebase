@@ -43,6 +43,10 @@ class Crud_m extends CI_Model{
         $query = $this->db->query("Select * from $table where $where");
         return $query->result();
     }
+    function select_where_row($table, $where){
+        $query = $this->db->query("Select * from $table where $where");
+        return $query->row();
+    }
 
     function insert($table, $data) {
         $this->db->insert($table, $data);

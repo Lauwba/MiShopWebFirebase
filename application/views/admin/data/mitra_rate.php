@@ -11,6 +11,7 @@
                 <th scope="col">Nama</th>
                 <th scope="col">Alamat</th>
                 <th scope="col">Jumlah Laporan</th>
+                <th scope="col">Rating</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -70,8 +71,9 @@
             var cellEmail = row.insertCell(2);
             var cellNama = row.insertCell(3);
             var cellAlamat = row.insertCell(4);
-            var cellRate = row.insertCell(5);
-            var cellAction = row.insertCell(6);
+            var cellLap = row.insertCell(5);
+            var cellRate = row.insertCell(6);
+            var cellAction = row.insertCell(7);
             cellNo.appendChild(document.createTextNode(rowIndex));
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
             cellEmail.appendChild(document.createTextNode(childData.email_mitra));
@@ -80,12 +82,34 @@
 //            cellRate.appendChild(document.createTextNode(""));
             cellAction.innerHTML = "<button type='button' class='btn btn-primary' onclick='modalSuspend(`" + childKey + "`);'>Suspend</button>";
 
-            var refCustomer = firebase.database().ref('report/').orderByChild('uidTerlapor').equalTo(uid);
-            refCustomer.once('value', function (snapshot) {
+            var refMitra = firebase.database().ref('report/').orderByChild('uidTerlapor').equalTo(uid);
+            refMitra.once('value', function (snapshot) {
                 var list = snapshot.numChildren();
                 console.log(list);
-                cellRate.appendChild(document.createTextNode(list));
+                cellLap.appendChild(document.createTextNode(list));
             });
+
+            var totStar = 0;
+            var refRate = firebase.database().ref('rating/').orderByChild('uidMitra').equalTo(uid);
+            refRate.once('value', function (rates) {
+                rates.forEach(function (rate) {
+                    var childData = rate.val();
+                    var star = childData.rating;
+
+                    totStar = totStar + star;
+                });
+                var list = rates.numChildren();
+                console.log("Rating: " + list);
+                console.log("Total Rating: " + totStar);
+                var rating = parseFloat(totStar) / parseFloat(list);
+                
+                if(isNaN(rating) === true) {
+                    cellRate.appendChild(document.createTextNode("-"));
+                }else{
+                    cellRate.appendChild(document.createTextNode(rating));
+                }
+            });
+
 
             rowIndex = rowIndex + 1;
         });
