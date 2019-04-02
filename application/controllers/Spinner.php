@@ -24,8 +24,18 @@ class Spinner extends CI_Controller {
         $data['title'] = "Data Spinner";
         $this->load->view('admin/spinner/list_spinner', $data);
     }
+
     function form_edit() {
         $this->load->view('admin/spinner/form_edit');
+    }
+
+    function proses_edit() {
+        $id = $this->input->post('id_spinner');
+        $data = array(
+            'arr_spinner' => $this->input->post('arr_spinner'),
+        );
+        $this->Crud_m->update('spinner', $data, 'id_spinner', $id);
+        redirect('Spinner/list_spinner');
     }
 
 }

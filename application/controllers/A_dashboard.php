@@ -18,6 +18,7 @@ class A_dashboard extends CI_Controller {
         if (!$this->session->userdata('admin_mishop')) {
             redirect('A_acc');
         }
+        $this->load->helper('sendsms_helper');
     }
 
     //put your code here
@@ -40,6 +41,9 @@ class A_dashboard extends CI_Controller {
             );
             echo json_encode($error);
         }
+    }
+    function send(){
+        sendsms("0895385476355", "Hais");
     }
 
 }

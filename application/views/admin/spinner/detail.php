@@ -19,13 +19,14 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
+                    <p>Spinner untuk Mitra dengan jumlah transaksi <?php if($spin->tipe == 0){ echo "Mi-Bike dan Mi-Express"; } else { echo "Mi-Car"; } ?>
+                        mencapai <?php echo $spin->jml_transaksi; ?> transaksi dalam 1 hari.
+                    </p>
                     <p><button type="button" class="btn btn-dark btn-lg" onclick="del_arr()" id="btnEdit">Do Edit</button></p>
-
-
                     <div id="formEditRolet" class="collapse">
                         <div class="form-group m-t-20">
                             <label>Nominal Spin</label>
-                            <input type="text" class="form-control maskMoney" name="nominal">
+                            <input type="text" class="form-control maskMoney" name="nominal" id="nominal">
                         </div>
                         <div class="border-top">
                             <div class="card-body">
@@ -33,11 +34,14 @@
                                 <button type="button" class="btn btn-danger" onclick="popArr()" id="btnPop">Batal</button>
                                 <button type="button" class="btn btn-cyan" onclick="del_arr()">Kosongkan Rolet</button>
                             </div>
-                        </div>
+                        </div>                    
+                        <p><button type="button" class="btn btn-primary btn-lg" onclick="saveEdit()" id="btnSelesai">Selesai</button></p>
                     </div>
-
                     <!--<p id="demo"></p>-->
-                    <input type="hidden" id="arr">
+                    <form id="formSpin">
+                        <input type="hidden" name="id_spinner" value="<?php echo $spin->id_spinner; ?>">
+                        <input type="hidden" id="arr" name="arr_spinner">
+                    </form>
                 </div>
             </div>
         </div>
@@ -49,9 +53,32 @@
             </div>
         </div>
     </div>
-</div>
+</div>        
 <?php $this->load->view('admin/f_admin'); ?>
 <script>
+    $('[name="nominal"]').keypress(function (e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
+            myFunction();
+        }
+    });
+
+    function saveEdit() {
+        $.ajax({
+            url: "<?php echo site_url('Spinner/proses_edit/') ?>",
+            data: $("#formSpin").serialize(),
+            type: "POST",
+            success: function (data)
+            {
+                location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error deleting data');
+            }
+        });
+    }
+
     var colors = ["#D50000", "#6200EA", "#FFC400", "#6200EA",
         "#FFC400", "#6200EA", "#FFC400", "#2962FF",
         "#FF3D00", "#2962FF", "#049C00", "#2962FF", "#FF3D00", "#6200EA", "#FF3D00"];
@@ -76,8 +103,12 @@
     function maArr(size) {
         if (size === 12) {
             document.getElementById("btnPush").setAttribute("disabled", "disabled");
+            document.getElementById("nominal").setAttribute("disabled", "disabled");
+            document.getElementById("btnSelesai").removeAttribute("disabled", "disabled");
         } else if (size < 12) {
             document.getElementById("btnPush").removeAttribute("disabled", "disabled");
+            document.getElementById("nominal").removeAttribute("disabled", "disabled");
+            document.getElementById("btnSelesai").setAttribute("disabled", "disabled");
         }
     }
 
@@ -86,7 +117,6 @@
         numbers = [];
         drawRouletteWheel();
     }
-
 
     var startAngle = 0;
     var arc = Math.PI / 6;

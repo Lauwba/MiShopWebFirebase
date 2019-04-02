@@ -18,6 +18,7 @@ class A_acc extends CI_Controller {
         if($this->session->userdata('admin_mishop')){
             redirect('A_dashboard');
         }
+        
     }
 
     //put your code here
@@ -40,5 +41,4 @@ class A_acc extends CI_Controller {
             echo 0;
         }
     }
-
 }
