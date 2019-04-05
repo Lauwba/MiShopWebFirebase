@@ -37,5 +37,9 @@ class Spinner extends CI_Controller {
         $this->Crud_m->update('spinner', $data, 'id_spinner', $id);
         redirect('Spinner/list_spinner');
     }
+    function data_transaksi(){
+        $data['title'] = "Transaksi Spinner Hari Ini";
+        $this->load->view('admin/spinner/data_transaksi', $data);
+    }
 
 }

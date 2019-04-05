@@ -7,6 +7,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Foto</th>
+                <th scope="col">Kode</th>
                 <th scope="col">Email</th>
                 <th scope="col">Nama</th>
                 <th scope="col">Alamat</th>
@@ -68,14 +69,16 @@
             var row = tblTarif.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
             var cellFoto = row.insertCell(1);
-            var cellEmail = row.insertCell(2);
-            var cellNama = row.insertCell(3);
-            var cellAlamat = row.insertCell(4);
-            var cellLap = row.insertCell(5);
-            var cellRate = row.insertCell(6);
-            var cellAction = row.insertCell(7);
+            var cellKode = row.insertCell(2);
+            var cellEmail = row.insertCell(3);
+            var cellNama = row.insertCell(4);
+            var cellAlamat = row.insertCell(5);
+            var cellLap = row.insertCell(6);
+            var cellRate = row.insertCell(7);
+            var cellAction = row.insertCell(8);
             cellNo.appendChild(document.createTextNode(rowIndex));
             cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
+            cellKode.appendChild(document.createTextNode(childData.id_mitra));
             cellEmail.appendChild(document.createTextNode(childData.email_mitra));
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
             cellAlamat.appendChild(document.createTextNode(childData.alamat_mitra));
@@ -102,11 +105,12 @@
                 console.log("Rating: " + list);
                 console.log("Total Rating: " + totStar);
                 var rating = parseFloat(totStar) / parseFloat(list);
+                var fixRate = rating.toFixed(1);
                 
                 if(isNaN(rating) === true) {
                     cellRate.appendChild(document.createTextNode("-"));
                 }else{
-                    cellRate.appendChild(document.createTextNode(rating));
+                    cellRate.appendChild(document.createTextNode(fixRate));
                 }
             });
 

@@ -14,8 +14,9 @@
 class Mitra extends CI_Controller {
 
     //put your code here
-    function spinner($id_mitra) {
+    function spinner($id_mitra, $tipe, $jml) {
         $data['id_mitra'] = $id_mitra;
+        $data['spin'] = $this->Crud_m->select_where_row('spinner', "tipe=$tipe and jml_transaksi=$jml");
         $this->load->view('mitra/spinner', $data);
     }
 

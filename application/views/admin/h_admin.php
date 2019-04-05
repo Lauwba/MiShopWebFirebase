@@ -120,7 +120,13 @@
                                 </ul>
                             </li>
                             <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo site_url('notifikasi'); ?>" aria-expanded="false"><i class="mdi mdi-alert"></i><span class="hide-menu">Notifikasi</span></a></li>
-                            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo site_url('Spinner/list_spinner'); ?>" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu">Spinner</span></a></li>
+                            <!--<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo site_url('Spinner/list_spinner'); ?>" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu">Spinner</span></a></li>-->
+                            <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu">Spinner </span></a>
+                                <ul aria-expanded="false" class="collapse  first-level">
+                                    <li class="sidebar-item"><a href="<?php echo site_url('Spinner/data_transaksi'); ?>" class="sidebar-link"><i class="mdi mdi-move-resize-variant"></i><span class="hide-menu"> Transaksi </span></a></li>
+                                    <li class="sidebar-item"><a href="<?php echo site_url('Spinner/list_spinner'); ?>" class="sidebar-link"><i class="mdi mdi-border-inside"></i><span class="hide-menu"> Data </span></a></li>
+                                </ul>
+                            </li>                         
                             <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-message-outline"></i><span class="hide-menu">Kritik & Saran </span></a>
                                 <ul aria-expanded="false" class="collapse  first-level">
                                     <li class="sidebar-item"><a href="<?php echo site_url('saran-customer'); ?>" class="sidebar-link"><i class="mdi mdi-emoticon"></i><span class="hide-menu"> Customer </span></a></li>

@@ -19,10 +19,14 @@ class Saldo extends CI_Controller {
         }
     }
 
-    //put your code here
     function index() {
         $data['title'] = "Top Up Saldo Mitra";
         $this->load->view('admin/saldo/topup', $data);
+    }
+    
+    function form_topup($id) {
+        $data['id_mitra'] = $id;
+        $this->load->view('admin/saldo/form_topup', $data);
     }
     
     function topup_mitra() {

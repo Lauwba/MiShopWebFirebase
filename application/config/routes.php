@@ -56,7 +56,7 @@ $route['translate_uri_dashes'] = FALSE;
 /* FOR MITRA */
 $route['register'] = '/Welcome/index';
 $route['login-mitra'] = '/M_acc/login_mitra';
-$route['spin-mitra/(:any)'] = '/Mitra/spinner/$1';
+$route['spin-mitra/(:any)/(:any)/(:any)'] = '/Mitra/spinner/$1/$2/$3';
 
 /* END MITRA */
 
