@@ -46,14 +46,15 @@
 <script src="<?php echo base_url(); ?>assets/admin/assets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/admin/dist/js/pages/mask/mask.init.js"></script>
 <script>
-    
+
     /*datwpicker*/
     jQuery('.mydatepicker').datepicker({
         autoclose: true,
         todayHighlight: true,
         format: "yyyy-mm-dd",
-        pickerPosition : 'bottom-right'
-});
+        pickerPosition: 'bottom-right',
+
+    });
 
     $(document).ready(function () {
         $(function () {
@@ -65,7 +66,7 @@
         });
 
     });
-    
+
     function toRp(angka) {
         var rev = parseInt(angka, 10).toString().split('').reverse().join('');
         var rev2 = '';

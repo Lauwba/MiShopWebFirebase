@@ -64,4 +64,9 @@ class Crud_m extends CI_Model{
         $this->db->delete($table);
         return $this->db->affected_rows();
     }
+    
+    function cek_db($ids){
+        $query = $this->db->query("SELECT * FROM spinner WHERE id_spinner IN (1,2,3)");
+        return $query->result();        
+    }
 }

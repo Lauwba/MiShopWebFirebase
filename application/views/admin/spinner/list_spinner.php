@@ -19,15 +19,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
                     <!--content here-->
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Jumlah Transaksi Selesai</th>
+                                    <th>No</th>                                    
                                     <th>Aplikasi</th>
+                                    <th>Jumlah Transaksi Selesai</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -39,7 +38,6 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
-                                        <td><?php echo $d->jml_transaksi; ?></td>
                                         <td><?php
                                             if ($d->tipe == 0) {
                                                 echo "Mi-Bike dan Mi-Express";
@@ -47,6 +45,7 @@
                                                 echo "Mi-Car";
                                             }
                                             ?></td>
+                                        <td><?php echo $d->jml_transaksi; ?></td>                                        
                                         <td>
                                             <a href="<?php echo site_url("Spinner/detail/$d->id_spinner"); ?>" class="btn btn-primary btn-md">
                                                 Detail <i class="m-r-10 mdi mdi-arrow-right"></i>
@@ -57,7 +56,6 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>

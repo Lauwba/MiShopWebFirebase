@@ -6,7 +6,8 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo site_url('A_dashboard'); ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo site_url('Spinner/list_spinner'); ?>">Data Spinner</a></li>
                         <li class="breadcrumb-item active" aria-current="page"><?php echo $title; ?></li>
                     </ol>
                 </nav>

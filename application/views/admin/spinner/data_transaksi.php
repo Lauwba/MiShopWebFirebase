@@ -2,7 +2,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title"><?php echo $title; ?></h4>
+            <h4 class="page-title"><?php echo $title; ?> <span id="dateTrans"></span></h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -22,9 +22,9 @@
                     <div class="col-6">
                         <form id="formTrans">
                             <div class="input-group">
-                                <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2"><i class="ti-search"></i></span>
+                                <input type="text" class="form-control mydatepickers" placeholder="mm/dd/yyyy" id="tglTransSpin">
+                                <div class="input-group-append" onclick="loadDataDate()">
+                                    <span class="input-group-text btn btn-cyan" id="basic-addon2"><i class="ti-search"></i>&nbsp; Tampilkan</span>
                                 </div>
                             </div>
                         </form>
@@ -64,45 +64,76 @@
 </div>
 <?php $this->load->view('admin/f_admin'); ?>
 <script>
-    $('body').loading({
-        stoppable: false
+    jQuery('.mydatepickers').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: "yyyy-mm-dd",
+        pickerPosition: 'bottom-right',
+        endDate: new Date(),
     });
-    var today = new Date();
-    var start = today.setHours(0, 0, 0, 0);
-    var end = today.setHours(23, 59, 59, 999);
+    $(document).ready(function () {
+        $('#dateTrans').html("Hari ini");
+        var today = new Date();
+        var start = today.setHours(0, 0, 0, 0);
+        var end = today.setHours(23, 59, 59, 999);
+        loadData(start, end);
+    });
 
-    var tblSpinner = document.getElementById('tblSpinner');
-    var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild("tgl_trans").startAt(start).endAt(end);
-    var rowIndex = 1;
-    var sum = 0;
+    function loadDataDate() {
+        var today = new Date($('#tglTransSpin').val());
 
-    databaseRef.once('value', function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
 
-            if (childSnapshot.val().ket_trans === "Spinner") {
 
-                var childKey = childSnapshot.val().id_mitra;
-                var childData = childSnapshot.val();
 
-                var row = tblSpinner.insertRow(rowIndex);
-                var cellId = row.insertCell(0);
-                var cellMitra = row.insertCell(1);
-                var cellNama = row.insertCell(2);
-                var cellNominal = row.insertCell(3);
-                cellId.appendChild(document.createTextNode(rowIndex));
-                cellMitra.appendChild(document.createTextNode(childData.id_mitra));
-                cellNominal.appendChild(document.createTextNode(toRp(childData.jumlah)));
+        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        let formatted_date = today.getDate() + "-" + months[today.getMonth()] + "-" + today.getFullYear()
+        $('#dateTrans').html(formatted_date);
 
-                firebase.database().ref('/mitra/' + childKey).once('value').then(function (snapshot) {
-                    cellNama.appendChild(document.createTextNode(snapshot.val() && snapshot.val().nama_mitra));
-                    console.log(childKey);
-                });
 
-                rowIndex = rowIndex + 1;
-                sum += parseInt(childData.jumlah);
-            }
+
+        var start = today.setHours(0, 0, 0, 0);
+        var end = today.setHours(23, 59, 59, 999);
+        loadData(start, end);
+    }
+
+    function loadData(start, end) {
+        $('body').loading({
+            stoppable: false
         });
-        $('body').loading('stop');
-        $('#totalSpin').html(toRp(sum));
-    });
+
+        var tblSpinner = document.getElementById('tblSpinner');
+        var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild("tgl_trans").startAt(start).endAt(end);
+        var rowIndex = 1;
+        var sum = 0;
+
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+
+                if (childSnapshot.val().ket_trans === "Spinner") {
+
+                    var childKey = childSnapshot.val().id_mitra;
+                    var childData = childSnapshot.val();
+
+                    var row = tblSpinner.insertRow(rowIndex);
+                    var cellId = row.insertCell(0);
+                    var cellMitra = row.insertCell(1);
+                    var cellNama = row.insertCell(2);
+                    var cellNominal = row.insertCell(3);
+                    cellId.appendChild(document.createTextNode(rowIndex));
+                    cellMitra.appendChild(document.createTextNode(childData.id_mitra));
+                    cellNominal.appendChild(document.createTextNode(toRp(childData.jumlah)));
+
+                    firebase.database().ref('/mitra/' + childKey).once('value').then(function (snapshot) {
+                        cellNama.appendChild(document.createTextNode(snapshot.val() && snapshot.val().nama_mitra));
+                        console.log(childKey);
+                    });
+
+                    rowIndex = rowIndex + 1;
+                    sum += parseInt(childData.jumlah);
+                }
+            });
+            $('body').loading('stop');
+            $('#totalSpin').html(toRp(sum));
+        });
+    }
 </script>
