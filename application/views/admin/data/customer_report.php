@@ -55,7 +55,7 @@
 
 
     var tbl = document.getElementById('tabelData');
-    var databaseRef = firebase.database().ref('customer/').orderByChild('statusAktif').equalTo(0);
+    var databaseRef = firebase.database().ref('customer/');
     var rowIndex = 1;
 
     databaseRef.once('value', function (snapshot) {
@@ -63,29 +63,38 @@
             var uid = childSnapshot.val().uid;
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
-            var row = tbl.insertRow(rowIndex);
-            var cellNo = row.insertCell(0);
-            var cellFoto = row.insertCell(1);
-            var cellEmail = row.insertCell(2);
-            var cellNama = row.insertCell(3);
-            var cellJumlah = row.insertCell(4);
-            var cellAction = row.insertCell(5);
-            cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.fotoCustomer + "' style='width:100px'>";
-            cellEmail.appendChild(document.createTextNode(childData.email));
-            cellNama.appendChild(document.createTextNode(childData.nama));
 
-            cellAction.innerHTML = "<button type='button' class='btn btn-primary' onclick='modalSuspend(`" + childKey + "`);'>Suspend</button>";
+            if(childData.statusAktif !== 1) {
+
+                if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+                } else {
+                    var foto = childData.fotoCustomer;
+                }
+                var row = tbl.insertRow(rowIndex);
+                var cellNo = row.insertCell(0);
+                var cellFoto = row.insertCell(1);
+                var cellEmail = row.insertCell(2);
+                var cellNama = row.insertCell(3);
+                var cellJumlah = row.insertCell(4);
+                var cellAction = row.insertCell(5);
+                cellNo.appendChild(document.createTextNode(rowIndex));
+                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px'>";
+                cellEmail.appendChild(document.createTextNode(childData.email));
+                cellNama.appendChild(document.createTextNode(childData.nama));
+
+                cellAction.innerHTML = "<button type='button' class='btn btn-primary' onclick='modalSuspend(`" + childKey + "`);'>Suspend</button>";
 
 
 
-            var refCustomer = firebase.database().ref('report/').orderByChild('uidTerlapor').equalTo(uid);
-            refCustomer.once('value', function (snapshot) {
-                var list = snapshot.numChildren();
-                console.log(list);
-                cellJumlah.appendChild(document.createTextNode(list));
-            });
-            rowIndex = rowIndex + 1;
+                var refCustomer = firebase.database().ref('report/').orderByChild('uidTerlapor').equalTo(uid);
+                refCustomer.once('value', function (snapshot) {
+                    var list = snapshot.numChildren();
+                    console.log(list);
+                    cellJumlah.appendChild(document.createTextNode(list));
+                });
+                rowIndex = rowIndex + 1;
+            }
         });
         $('body').loading('stop');
     });

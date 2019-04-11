@@ -12,10 +12,10 @@
  * @author windows8.1
  */
 class Spinner extends CI_Controller {
-    
+
     function __construct() {
         parent::__construct();
-        if(!$this->session->userdata('admin_mishop')){
+        if (!$this->session->userdata('admin_mishop')) {
             redirect('A_acc');
         }
     }
@@ -52,19 +52,13 @@ class Spinner extends CI_Controller {
 
     function cek() {
         $id_spin = [1, 2, 3];
-//        $arr="";
-//        
-//        foreach ($id_spin as $row){
-//            $arr .= "$row,";
-//        }
-        echo json_encode($id_spin);
 
+        $id = join(",", $id_spin);
 
-//        $data = $this->Crud_m->cek_db($id_spin);
-//        foreach ($data as $d) {
-//            echo $d->jml_transaksi;
-//        }
-
+        $data = $this->Crud_m->select_where('spinner', " id_spinner IN ($id)");
+        foreach ($data as $d) {
+            echo "<h1>" . $d->jml_transaksi . "</h1>";
+        }
     }
 
 }

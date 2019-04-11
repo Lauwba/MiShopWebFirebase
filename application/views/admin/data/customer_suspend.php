@@ -27,6 +27,12 @@
             var uid = childSnapshot.val().uid;
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
+            
+            if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+                } else {
+                    var foto = childData.fotoCustomer;
+                }
 
             var row = tbl.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
@@ -36,7 +42,7 @@
             var cellJumlah = row.insertCell(4);
             var cellAction = row.insertCell(5);
             cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.fotoCustomer + "' style='width:100px'>";
+            cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px'>";
             cellEmail.appendChild(document.createTextNode(childData.email));
             cellNama.appendChild(document.createTextNode(childData.nama));
 //            cellJumlah.appendChild(document.createTextNode("0"));

@@ -30,6 +30,13 @@
             var childData = childSnapshot.val();
 
             var uid = childData.uid;
+            
+            if(jQuery.isEmptyObject(childData.fotoCustomer)){ 
+                var foto = "<?php echo base_url('assets/profil/people.png');?>";
+            }else{                
+                var foto = childData.fotoCustomer;
+            }
+            
 
             var row = tbl.insertRow(rowIndex);
             var cellNo = row.insertCell(0);
@@ -38,7 +45,7 @@
             var cellJumlah = row.insertCell(3);
             var cellAction = row.insertCell(4);
             cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.fotoCustomer + "' style='width:100px'>";
+            cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
             cellNama.appendChild(document.createTextNode(childData.nama));
             cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
                     + "<tr><td><span id='service" + uid + "'></span></span></td><td><span id='shop" + uid + "'></span></td><td><span id='express" + uid + "'>"

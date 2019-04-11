@@ -66,7 +66,7 @@ class Crud_m extends CI_Model{
     }
     
     function cek_db($ids){
-        $query = $this->db->query("SELECT * FROM spinner WHERE id_spinner IN (1,2,3)");
+        $query = $this->db->query("SELECT * FROM spinner WHERE id_spinner IN ($ids)");
         return $query->result();        
     }
 }

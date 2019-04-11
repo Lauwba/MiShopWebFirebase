@@ -39,7 +39,7 @@
 
                 <!--content here-->
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="tblSpinner">
+                    <table class="table table-bordered" id="tblDataSpinner">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -101,18 +101,19 @@
             stoppable: false
         });
 
-        var tblSpinner = document.getElementById('tblSpinner');
+        var tblSpinner = document.getElementById('tblDataSpinner');
         var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild("tgl_trans").startAt(start).endAt(end);
         var rowIndex = 1;
         var sum = 0;
 
-        databaseRef.once('value', function (snapshot) {
+        databaseRef.once('value', function (snapshot) {            
             snapshot.forEach(function (childSnapshot) {
+                var childData = childSnapshot.val();
 
-                if (childSnapshot.val().ket_trans === "Spinner") {
-
-                    var childKey = childSnapshot.val().id_mitra;
-                    var childData = childSnapshot.val();
+                if (childData.ket_trans === "Spinner") {   
+                    console.log(rowIndex);
+                    
+                    var childKey = childData.id_mitra;
 
                     var row = tblSpinner.insertRow(rowIndex);
                     var cellId = row.insertCell(0);
@@ -123,13 +124,13 @@
                     cellMitra.appendChild(document.createTextNode(childData.id_mitra));
                     cellNominal.appendChild(document.createTextNode(toRp(childData.jumlah)));
 
-                    firebase.database().ref('/mitra/' + childKey).once('value').then(function (snapshot) {
-                        cellNama.appendChild(document.createTextNode(snapshot.val() && snapshot.val().nama_mitra));
+                    firebase.database().ref('/mitra/' + childKey).once('value').then(function (snapshotMitra) {
+                        cellNama.appendChild(document.createTextNode(snapshotMitra.val() && snapshotMitra.val().nama_mitra));
                         console.log(childKey);
                     });
-
-                    rowIndex = rowIndex + 1;
                     sum += parseInt(childData.jumlah);
+                    rowIndex = rowIndex + 1;
+
                 }
             });
             $('body').loading('stop');

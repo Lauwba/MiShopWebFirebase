@@ -22,7 +22,7 @@
                     <h5 class="card-title"><?php echo $title; ?></h5>
                     <div class="row">
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-success" onclick="loadCust('cust_all')">Customer</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-success" onclick="setActiveButton('cust_all')">Customer</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <button type="button" class="btn btn-lg btn-block btn-outline-cyan" onclick="setActiveButton('cust_report')">Laporan</button>
