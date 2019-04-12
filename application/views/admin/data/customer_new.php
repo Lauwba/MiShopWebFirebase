@@ -17,6 +17,14 @@
         </tbody>
     </table>
 </div>
+<div class="col-md-4">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination" id="demo">
+            <!--<span id="demo"></span>-->
+            <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+        </ul>
+    </nav>
+</div>
 <div class="modal fade none-border" id="my-event">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -53,46 +61,75 @@
 <script>
     var tbl = document.getElementById('tabelData');
 //    var databaseRef = firebase.database().ref('customer/').orderByChild('statusAktif').equalTo(0);
-    var databaseRef = firebase.database().ref('customer/').orderByChild('nama').limitToFirst(3).startAt('-LaekT3NqJWQFCxy8v0H');
-    var rowIndex = 1;
+    var dbRef;
+    var dbRefPage = firebase.database().ref('customer/');
+    var key;
 
-    databaseRef.once('value', function (snapshot) {
-        snapshot.forEach(function (childSnapshot) {
-            var uid = childSnapshot.val().uid;
-            var childKey = childSnapshot.key;
-            var childData = childSnapshot.val();
+//    dbRefPage.once('value', function (snapshot) {
+//
+//        var rowData = snapshot.numChildren();
+//        var jmlPage = parseInt(rowData) / 3;
+//        var text = "";
+//        for (i = 0; i < jmlPage; i++) {
+//            var page = parseInt(i) + 1;
+//            text += '<li class="page-item"><a class="page-link" href="#" onclick="goToPage(`' + key + '`)">' + page + '</a></li>';
+//        }
+//        document.getElementById("demo").innerHTML = text;
+//    })
 
-//            if (rowIndex < 6) {
-
-                if (jQuery.isEmptyObject(childData.fotoCustomer)) {
-                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
-                } else {
-                    var foto = childData.fotoCustomer;
-                }
-
-                if (childData.statusAktif === 1) {
-                    var status = "Suspend";
-                } else {
-                    var status = "Aktif";
-                }
-
-                var row = tbl.insertRow(rowIndex);
-                var cellNo = row.insertCell(0);
-                var cellFoto = row.insertCell(1);
-                var cellEmail = row.insertCell(2);
-                var cellNama = row.insertCell(3);
-                var cellAlamat = row.insertCell(4);
-                var cellStatus = row.insertCell(5);
-                cellNo.appendChild(document.createTextNode(rowIndex));
-                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
-                cellEmail.appendChild(document.createTextNode(childData.email));
-                cellNama.appendChild(document.createTextNode(childData.nama));
-                cellAlamat.appendChild(document.createTextNode(childData.alamat));
-                cellStatus.appendChild(document.createTextNode(status));
-
-                rowIndex = rowIndex + 1;
-//            }
-        });
-        $('body').loading('stop');
+    $(document).ready(function () {
+//        dbRef = firebase.database().ref('customer/').limitToFirst(4);
+        dbRef = firebase.database().ref('customer/');
+        loadData(dbRef);
     });
+
+    function goToPage(key) {
+        dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(4).startAt(key);
+        loadData(dbRef);
+    }
+
+    function loadData(databaseRef) {        
+        var rowIndex = 1;
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var uid = childSnapshot.val().uid;
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+//                if (rowIndex <= 3) {
+                    if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+                        var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+                    } else {
+                        var foto = childData.fotoCustomer;
+                    }
+
+                    if (childData.statusAktif === 1) {
+                        var status = "Suspend";
+                    } else {
+                        var status = "Aktif";
+                    }
+
+                    var row = tbl.insertRow(rowIndex);
+                    var cellNo = row.insertCell(0);
+                    var cellFoto = row.insertCell(1);
+                    var cellEmail = row.insertCell(2);
+                    var cellNama = row.insertCell(3);
+                    var cellAlamat = row.insertCell(4);
+                    var cellStatus = row.insertCell(5);
+                    cellNo.appendChild(document.createTextNode(rowIndex));
+                    cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
+                    cellEmail.appendChild(document.createTextNode(childData.email));
+                    cellNama.appendChild(document.createTextNode(childData.nama));
+                    cellAlamat.appendChild(document.createTextNode(childData.alamat));
+                    cellStatus.appendChild(document.createTextNode(status));
+//                } else if (rowIndex === 4) {
+//                    key = childKey;
+//                    console.log(key);
+//                }
+                rowIndex = rowIndex + 1;
+
+
+            });
+            $('body').loading('stop');
+        });
+    }
 </script>
