@@ -56,7 +56,7 @@ class A_data extends CI_Controller {
         $this->load->view('admin/data/mitra_wilayah');
     }
     function cust_all(){
-        $this->load->view('admin/data/customer_new');
+        $this->load->view('admin/data/customer_new_pagination_backup_2');
     }
     function cust_report(){
         $this->load->view('admin/data/customer_report');

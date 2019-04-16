@@ -1,7 +1,8 @@
 <div class="card-body">
     <h5 class="card-title m-b-0">Data Customer</h5>
 </div>
-<input type="text" id="key">
+<input type="text" id="keyNext">
+<input type="text" id="keyBefore">
 <div class="table-responsive">    
     <table class="table" id="tabelData">
         <thead>
@@ -21,8 +22,6 @@
 <div class="col-md-4">
     <nav aria-label="Page navigation example">
         <ul class="pagination" id="demo">
-            <!--<span id="demo"></span>-->
-            <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
         </ul>
     </nav>
 </div>
@@ -36,13 +35,6 @@
             <div class="modal-body">
                 <form id="formTglSuspend">
                     <input type="hidden" name="id_customer">
-<!--                    <label>Tanggal <small>(bulan/tanggal/tahun)</small></label>
-                    <div class="input-group">
-                        <input type="datetime-local" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="tanggal">
-                        <div class="input-group-append">
-                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                        </div>
-                    </div>-->
                     <label>Batas Waktu</label>
                     <div class="input-group">
                         <input type="text" class="form-control mydatepicker" placeholder="YYYY/mm/dd hh:ii"  name="tanggal">
@@ -61,31 +53,45 @@
 </div>
 <script>
     var tbl = document.getElementById('tabelData');
-//    var databaseRef = firebase.database().ref('customer/').orderByChild('statusAktif').equalTo(0);
     var dbRef;
     var dbRefPage = firebase.database().ref('customer/');
-    var key = $("#key").val();
 
-    dbRefPage.once('value', function (snapshot) {
 
-        var rowData = snapshot.numChildren();
-        var jmlPage = parseInt(rowData) / 3;
-        var text = "";
-        for (i = 0; i < jmlPage; i++) {
-            var page = parseInt(i) + 1;
-            text += '<li class="page-item"><a class="page-link" href="#" onclick="goToPage(`' + key + '`)">' + page + '</a></li>';
+    function pages() {
+        var keyNext = $("#keyNext").val();
+        var keyBefore = $("#key").val();
+        var btnNext = '<li class="page-item"><a class="page-link" href="#" onclick="next(`' + keyNext + '`)">Next</a></li>';
+        if (keyNext === keyBefore) {
+            btnNext = '';
         }
+        var btnBefore = '<li class="page-item"><a class="page-link" href="#" onclick="before(`' + keyBefore + '`)">Before</a></li>';
+        text = btnBefore + btnNext;
         document.getElementById("demo").innerHTML = text;
-    })
+    }
 
     $(document).ready(function () {
         dbRef = firebase.database().ref('customer/').limitToFirst(4);
         loadData(dbRef);
     });
 
-    function goToPage(key) {
+    function next(key) {
+        deleteRows();
         dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(4).startAt(key);
         loadData(dbRef);
+    }
+    function before(key) {
+        deleteRows();
+        dbRef = firebase.database().ref('customer/').orderByKey().limitToLast(4).startAt(key);
+        loadData(dbRef);
+    }
+
+    function deleteRows() {
+        $('body').loading({
+            stoppable: false
+        });
+        tbl.deleteRow(3);
+        tbl.deleteRow(2);
+        tbl.deleteRow(1);
     }
 
     function loadData(databaseRef) {
@@ -96,6 +102,10 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 if (rowIndex <= 3) {
+                    if (rowIndex === 1) {
+                        $("#keyBefore").val(childKey);
+                    }
+
                     if (jQuery.isEmptyObject(childData.fotoCustomer)) {
                         var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
                     } else {
@@ -122,14 +132,12 @@
                     cellAlamat.appendChild(document.createTextNode(childData.alamat));
                     cellStatus.appendChild(document.createTextNode(status));
                 } else if (rowIndex === 4) {
-//                    key = childKey;
-                    $("#key").val(childKey)
-                    console.log(key);
+                    $("#keyNext").val(childKey);
+                    console.log("Child= " + childKey);
                 }
                 rowIndex = rowIndex + 1;
-
-
             });
+            pages();
             $('body').loading('stop');
         });
     }

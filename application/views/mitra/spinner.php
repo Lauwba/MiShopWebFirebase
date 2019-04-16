@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <center><canvas id="canvas" width="500" height="500"></canvas></center>                    
+                    <center><canvas id="canvas" width="500" height="500" style="width:100%;"></canvas></center>                    
                 </div>
                 <div class="col-sm-12">
                     <center><input type="button" value="Spin" onclick="spin();" class="btn btn-dark" id="btnSpin"></center>
