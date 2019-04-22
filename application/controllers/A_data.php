@@ -104,4 +104,13 @@ class A_data extends CI_Controller {
         $this->Crud_m->delete('profile', 'id_profile', $id);
         echo json_encode(array("status" => TRUE));
     }
+    
+    function set_session_key_b(){
+        $key = $this->input->post('key');
+        $this->session->set_userdata('key_before', $key);
+    }
+    function set_session_key_n(){
+        $key = $this->input->post('key');
+        $this->session->set_userdata('key_next', $key);
+    }
 }

@@ -2,7 +2,7 @@
     <h5 class="card-title m-b-0">Data Customer</h5>
 </div>
 <input type="text" id="keyNext">
-<input type="text" id="keyBefore">
+<input type="text" id="keyBefore" value="<?php echo $this->sesion_userdata('key_before');?>">
 <div class="table-responsive">    
     <table class="table" id="tabelData">
         <thead>
@@ -92,6 +92,21 @@
         tbl.deleteRow(3);
         tbl.deleteRow(2);
         tbl.deleteRow(1);
+    }
+
+    function setSession(val_key, tipe) {
+        if(tipe === 0){//before
+            var url = "<?php echo site_url('A_data/set_session_key_b');?>";
+        } else {
+            var url = "<?php echo site_url('A_data/set_session_key_n');?>";
+        }
+        $.ajax({
+            url: url,
+            data: {key:val_key},
+            type: "POST",
+            success: function (data) {                
+            }
+        })
     }
 
     function loadData(databaseRef) {
