@@ -192,9 +192,9 @@ function register(id, foto, ktp, plat, skck, stnk, sim, stiker, tgl_daftar) {
     location.reload();
 }
 function sendemail(email,nama,unik) {
-    var url= "https://lauwba.com/mishop/Mitra/email";
+//    var url= "https://lauwba.com/mishop/Mitra/email";
     // var url= "https://mishop.server411.tech/Mitra/email";
-    // var url= "<?php echo base_url('Mitra/email);?>";
+     var url= "<?php echo base_url('Mitra/email);?>";
     console.log(url);
     $.ajax({
         url: url,

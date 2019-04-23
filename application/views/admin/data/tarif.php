@@ -49,9 +49,10 @@
 <?php $this->load->view('admin/f_admin'); ?>
 <script>
     $('body').loading({
-            stoppable: false
-        });
-    var tblTarif = document.getElementById('zero_config');
+        stoppable: false
+    });
+//    var tblTarif = document.getElementById('zero_config');
+    var t = $("#zero_config").DataTable();
     var databaseRef = firebase.database().ref('tarif/');
     var rowIndex = 1;
     var save_method = "add";
@@ -60,19 +61,29 @@
         snapshot.forEach(function (childSnapshot) {
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
+            
+            var tgl = new Date(childData.poston);
+            t.row.add([
+                rowIndex,
+                childData.tipe,
+                childData.tarif,
+                childData.ket,
+                "<button type='button' class='btn btn-danger' onclick='delete_user(`" + childKey + "`);'>Delete</button>" +
+                "<button type='button' class='btn btn-primary' onclick='edit(`" + childKey + "`);'>Edit</button>"
+            ]).draw(false);
 
-            var row = tblTarif.insertRow(rowIndex);
-            var cellId = row.insertCell(0);
-            var cellTipe = row.insertCell(1);
-            var cellTarif = row.insertCell(2);
-            var cellKet = row.insertCell(3);
-            var cellAction = row.insertCell(4);
-            cellId.appendChild(document.createTextNode(rowIndex));
-            cellTipe.appendChild(document.createTextNode(childData.tipe));
-            cellTarif.appendChild(document.createTextNode(childData.tarif));
-            cellKet.appendChild(document.createTextNode(childData.ket));
-            cellAction.innerHTML = "<button type='button' class='btn btn-danger' onclick='delete_user(`" + childKey + "`);'>Delete</button>" +
-                    "<button type='button' class='btn btn-primary' onclick='edit(`" + childKey + "`);'>Edit</button>";
+//            var row = tblTarif.insertRow(rowIndex);
+//            var cellId = row.insertCell(0);
+//            var cellTipe = row.insertCell(1);
+//            var cellTarif = row.insertCell(2);
+//            var cellKet = row.insertCell(3);
+//            var cellAction = row.insertCell(4);
+//            cellId.appendChild(document.createTextNode(rowIndex));
+//            cellTipe.appendChild(document.createTextNode(childData.tipe));
+//            cellTarif.appendChild(document.createTextNode(childData.tarif));
+//            cellKet.appendChild(document.createTextNode(childData.ket));
+//            cellAction.innerHTML = "<button type='button' class='btn btn-danger' onclick='delete_user(`" + childKey + "`);'>Delete</button>" +
+//                    "<button type='button' class='btn btn-primary' onclick='edit(`" + childKey + "`);'>Edit</button>";
             rowIndex = rowIndex + 1;
         });
         $('body').loading('stop');

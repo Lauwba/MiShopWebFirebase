@@ -46,27 +46,36 @@
     $('body').loading({
         stoppable: false
     });
-    var tblTarif = document.getElementById('zero_config');
+
+    var t = $("#zero_config").DataTable();
+//    var tblTarif = document.getElementById('zero_config');
     var databaseRef = firebase.database().ref('kritik/');
-    var rowIndex = 1;
+//    var rowIndex = 1;
 
     databaseRef.once('value', function (snapshot) {
         snapshot.forEach(function (childSnapshot) {
             if (childSnapshot.hasChild('email_mitra')) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
-
-                var row = tblTarif.insertRow(rowIndex);
-                var cellTgl = row.insertCell(0);
-                var cellEmail = row.insertCell(1);
-                var cellKritik = row.insertCell(2);
-
+                
                 var tgl = new Date(childData.poston);
+                t.row.add([
+                    tgl,
+                    childData.email_mitra,
+                    childData.komentar
+                ]).draw(false);
 
-                cellTgl.appendChild(document.createTextNode(tgl));
-                cellEmail.appendChild(document.createTextNode(childData.email_mitra));
-                cellKritik.appendChild(document.createTextNode(childData.komentar));
-                rowIndex = rowIndex + 1;
+//                var row = tblTarif.insertRow(rowIndex);
+//                var cellTgl = row.insertCell(0);
+//                var cellEmail = row.insertCell(1);
+//                var cellKritik = row.insertCell(2);
+//
+//                var tgl = new Date(childData.poston);
+//
+//                cellTgl.appendChild(document.createTextNode(tgl));
+//                cellEmail.appendChild(document.createTextNode(childData.email_mitra));
+//                cellKritik.appendChild(document.createTextNode(childData.komentar));
+//                rowIndex = rowIndex + 1;
             }
         });
         $('body').loading('stop');

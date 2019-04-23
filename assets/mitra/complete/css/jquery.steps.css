@@ -1,0 +1,15 @@
+.wizard > .steps .error .title,
+.wizard > .steps .error .title:hover,
+.wizard > .steps .error .title:active
+{
+    background: #ff3111;
+    color: #fff;
+}
+.wizard > .content > .body label.error
+{
+    color: #FF0000;
+    display: inline-block;
+    margin-left: 1.5em;
+    font-style: italic;
+    font-size: 10px;
+}
