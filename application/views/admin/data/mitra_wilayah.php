@@ -3,12 +3,12 @@
         var databaseRef = firebase.database().ref('mitra/').orderByChild('provinsi').equalTo(prov);
 
         databaseRef.once('value', function (snapshot) {
-            var row = 1;
+            var row = 0;
             snapshot.forEach(function (childSnapshot) {
                 var actives = childSnapshot.val().statusAktif;
                 var codes = active.toString() + id.toString();
                 if (active.toString() === actives.toString()) {
-                    var rowIndex = rowIndex + 1;
+                    row = row + 1;
 
                     $("#" + codes).html(row);
                 }

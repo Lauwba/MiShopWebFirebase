@@ -2,7 +2,7 @@
     <h5 class="card-title m-b-0">Data Customer</h5>
 </div>
 <input type="text" id="keyNext">
-<input type="text" id="keyBefore" value="<?php echo $this->sesion_userdata('key_before');?>">
+<input type="text" id="keyBefore" value="<?php // echo $this->sesion_userdata('key_before');?>">
 <div class="table-responsive">    
     <table class="table" id="tabelData">
         <thead>
@@ -76,7 +76,7 @@
 
     function next(key) {
         deleteRows();
-        dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(4).startAt(key);
+        dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(4).startAt(key+1);
         loadData(dbRef);
     }
     function before(key) {

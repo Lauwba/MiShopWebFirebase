@@ -1,7 +1,8 @@
 <div class="card-body">
     <h5 class="card-title m-b-0">Data Customer</h5>
 </div>
-<input type="text" id="key">
+<input type="text" id="keyNext">
+<!--<input type="text" id="keyBefore" value="<?php // echo $this->sesion_userdata('key_before');?>">-->
 <div class="table-responsive">    
     <table class="table" id="tabelData">
         <thead>
@@ -34,7 +35,6 @@
             <div class="modal-body">
                 <form id="formTglSuspend">
                     <input type="hidden" name="id_customer">
-                    </div>-->
                     <label>Batas Waktu</label>
                     <div class="input-group">
                         <input type="text" class="form-control mydatepicker" placeholder="YYYY/mm/dd hh:ii"  name="tanggal">
@@ -55,28 +55,34 @@
     var tbl = document.getElementById('tabelData');
     var dbRef;
     var dbRefPage = firebase.database().ref('customer/');
-    var key = $("#key").val();
 
-    dbRefPage.once('value', function (snapshot) {
 
-        var rowData = snapshot.numChildren();
-        var jmlPage = parseInt(rowData) / 3;
-        var text = "";
-        for (i = 0; i < jmlPage; i++) {
-            var page = parseInt(i) + 1;
-            text += '<li class="page-item"><a class="page-link" href="#" onclick="goToPage(`' + key + '`)">' + page + '</a></li>';
-        }
+    function pages() {
+        var keyNext = $("#keyNext").val();
+        var btnNext = '<li class="page-item"><a class="page-link" href="#" onclick="next(`' + keyNext + '`)">2</a></li>';
+        
+        text = btnNext;
         document.getElementById("demo").innerHTML = text;
-    })
+    }
 
     $(document).ready(function () {
-        dbRef = firebase.database().ref('customer/').limitToFirst(4);
+        dbRef = firebase.database().ref('customer/').limitToFirst(3);
         loadData(dbRef);
     });
 
-    function goToPage(key) {
-        dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(4).startAt(key);
+    function next(key) {
+        deleteRows();
+        dbRef = firebase.database().ref('customer/').orderByKey().limitToFirst(3).startAt(key+"a");
         loadData(dbRef);
+    }
+
+    function deleteRows() {
+        $('body').loading({
+            stoppable: false
+        });
+        tbl.deleteRow(3);
+        tbl.deleteRow(2);
+        tbl.deleteRow(1);
     }
 
     function loadData(databaseRef) {
@@ -87,39 +93,38 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
 
-                if (jQuery.isEmptyObject(childData.fotoCustomer)) {
-                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
-                } else {
-                    var foto = childData.fotoCustomer;
-                }
+                    if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+                        var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+                    } else {
+                        var foto = childData.fotoCustomer;
+                    }
 
-                if (childData.statusAktif === 1) {
-                    var status = "Suspend";
-                } else {
-                    var status = "Aktif";
-                }
+                    if (childData.statusAktif === 1) {
+                        var status = "Suspend";
+                    } else {
+                        var status = "Aktif";
+                    }
 
-                var row = tbl.insertRow(rowIndex);
-                var cellNo = row.insertCell(0);
-                var cellFoto = row.insertCell(1);
-                var cellEmail = row.insertCell(2);
-                var cellNama = row.insertCell(3);
-                var cellAlamat = row.insertCell(4);
-                var cellStatus = row.insertCell(5);
-                cellNo.appendChild(document.createTextNode(rowIndex));
-                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
-                cellEmail.appendChild(document.createTextNode(childData.email));
-                cellNama.appendChild(document.createTextNode(childData.nama));
-                cellAlamat.appendChild(document.createTextNode(childData.alamat));
-                cellStatus.appendChild(document.createTextNode(status));
-                if (rowIndex === 2) {
-                    $("#key").val(childKey);
-                    console.log(key);
-                }
+                    var row = tbl.insertRow(rowIndex);
+                    var cellNo = row.insertCell(0);
+                    var cellFoto = row.insertCell(1);
+                    var cellEmail = row.insertCell(2);
+                    var cellNama = row.insertCell(3);
+                    var cellAlamat = row.insertCell(4);
+                    var cellStatus = row.insertCell(5);
+                    cellNo.appendChild(document.createTextNode(rowIndex));
+                    cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
+                    cellEmail.appendChild(document.createTextNode(childData.email));
+                    cellNama.appendChild(document.createTextNode(childData.nama));
+                    cellAlamat.appendChild(document.createTextNode(childData.alamat));
+                    cellStatus.appendChild(document.createTextNode(status));
+                    if(rowIndex===3){
+                        $("#keyNext").val(childKey);
+                    }
+
                 rowIndex = rowIndex + 1;
-
-
             });
+            pages();
             $('body').loading('stop');
         });
     }

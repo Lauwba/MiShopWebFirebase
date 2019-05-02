@@ -111,13 +111,13 @@
 
     function day() {
         var today = new Date();
-        var now = today.setHours(0, 0, 0, 0);                    
+        var now = today.setHours(0, 0, 0, 0);
 
         var endNow = today.setHours(23, 59, 59, 999);
         tarif(now, endNow, "day");
-        
-        console.log("Now: " +now);
-        console.log("End: " +endNow);
+
+        console.log("Now: " + now);
+        console.log("End: " + endNow);
     }
     function month() {
         var ourDate = new Date();
@@ -163,11 +163,14 @@
 
                     var pendapatan = percent * (harga + ship);
 
-                    console.log("income: " + pendapatan);
+                    console.log("income service: " + pendapatan);
 
                     sum = sum + pendapatan;
                 }
             });
+            if (isNaN(sum) === true) {
+                sum = 0;
+            }
             console.log("Akhir Service: " + sum);
 //            $("#service").html(toRp(sum));
             shop(tarif, start, end, sum, time);
@@ -181,13 +184,17 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
                 if (childData.status_order_shop === 4) {
-                    var add = childData.kenaikan;
+                    var add = parseInt(childData.kenaikan);
                     var ship = parseInt(childData.ship_shop);
+                    var qty = childData.qty;
                     var percent = parseInt(tarif) / 100;
 
-                    var pendapatan = percent * ((add * childData.qty) + ship);
+                    var pendapatan = percent * ((add * qty) + ship);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
-                    console.log("income: " + pendapatan);
+                    console.log("income shop: " + pendapatan);
 
                     sum = sum + pendapatan;
                 }
@@ -209,8 +216,11 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
-                    console.log("income: " + pendapatan);
+                    console.log("income xpress: " + pendapatan);
 
                     sum = sum + pendapatan;
                 }
@@ -232,8 +242,11 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
-                    console.log("income: " + pendapatan);
+                    console.log("income bike: " + pendapatan);
 
                     sum = sum + pendapatan;
                 }
@@ -255,12 +268,16 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 
                     sum = sum + pendapatan;
                 }
             });
+
             console.log("Akhir Car: " + sum);
 //            $("#micar").html(toRp(sum));
             $("#" + time).html(toRp(sum + total));

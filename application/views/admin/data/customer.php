@@ -34,7 +34,7 @@
                             <button type="button" class="btn btn-lg btn-block btn-outline-danger" id="ts-cyan" onclick="setActiveButton('cust_suspend')">Suspended</button>
                         </div>
                         <div class="col-md-2 col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan" onclick="err()">Wilayah</button>
+                            <button type="button" class="btn btn-lg btn-block btn-outline-dark" id="ts-cyan" onclick="setActiveButton('cust_wilayah')">Wilayah</button>
                         </div>
                     </div>
                 </div>

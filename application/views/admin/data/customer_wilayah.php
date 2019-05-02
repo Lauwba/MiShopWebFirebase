@@ -1,14 +1,14 @@
 <script>
     function user(prov, id, active) {
-        var databaseRef = firebase.database().ref('mitra/').orderByChild('provinsi').equalTo(prov);
+        var databaseRef = firebase.database().ref('customer/').orderByChild('provinsi').equalTo(prov);
 
         databaseRef.once('value', function (snapshot) {
-            var row = 1;
+            var row = 0;
             snapshot.forEach(function (childSnapshot) {
                 var actives = childSnapshot.val().statusAktif;
                 var codes = active.toString() + id.toString();
                 if (active.toString() === actives.toString()) {
-                    var rowIndex = rowIndex + 1;
+                    row = row + 1;
 
                     $("#" + codes).html(row);
                 }
@@ -16,7 +16,7 @@
         });
     }
     function userAll(prov, id) {
-        var databaseRef = firebase.database().ref('mitra/').orderByChild('provinsi').equalTo(prov);
+        var databaseRef = firebase.database().ref('customer/').orderByChild('provinsi').equalTo(prov);
 
         databaseRef.once('value', function (snapshot) {
             var list = snapshot.numChildren();
@@ -46,15 +46,15 @@
             foreach ($provinsi as $p) {
                 ?>   
             <script>
+                user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `0`);
                 user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `1`);
-                user(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`, `2`);
                 userAll(`<?php echo $p->name; ?>`, `<?php echo $p->id; ?>`);
             </script>
             <tr>
                 <td><?php echo $no++; ?></td>
                 <td><?php echo $p->name; ?></td>
+                <td><span id="0<?php echo $p->id; ?>"></span></td>
                 <td><span id="1<?php echo $p->id; ?>"></span></td>
-                <td><span id="2<?php echo $p->id; ?>"></span></td>
                 <td><span id="<?php echo $p->id; ?>"></span></td>
             </tr>
 

@@ -99,6 +99,9 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga + ship);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 
@@ -106,6 +109,9 @@
                 }
 
             });
+//            if (isNaN(sum) === true) {
+//                sum = 0;
+//            }
             console.log("Akhir Service: " + sum);
             $("#service").html(toRp(sum));
             shop(tarif, start, end, sum);
@@ -124,6 +130,9 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * ((add * childData.qty) + ship);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 
@@ -148,6 +157,9 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 
@@ -173,6 +185,9 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 
@@ -197,6 +212,9 @@
                     var percent = parseInt(tarif) / 100;
 
                     var pendapatan = percent * (harga);
+                    if (isNaN(pendapatan) === true) {
+                        pendapatan = 0;
+                    }
 
                     console.log("income: " + pendapatan);
 

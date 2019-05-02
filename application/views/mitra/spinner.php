@@ -30,6 +30,7 @@
             <input type="hidden" id="idMitra" value="<?php echo $id_mitra ?>">
             <input type="hidden" id="saldoAkhir">
             <input type="hidden" id="saldoSkr">
+            <input type="hidden" id="uidSpinner" value="<?php echo $uid; ?>">
         </div>
     </body>
 </html>
@@ -144,6 +145,7 @@
                 'success'
                 );
         addToSaldo(text);
+        update_spinner();
 
         ctx.restore();
     }
@@ -169,8 +171,16 @@
             });
         });
     }
+
+    function update_spinner() {
+        var uidSpinner = $("#uidSpinner").val();
+        firebase.database().ref("/spinner/" + uidSpinner).once("value", function (snapshot) {
+            snapshot.ref.child("statusSpin").set("Done");
+        });
+    }
+
     function insertSaldo(debit) {
-        var jumlah= parseInt(debit);
+        var jumlah = parseInt(debit);
         var d = new Date();
         var tgl = d.setHours(d.getHours());
 

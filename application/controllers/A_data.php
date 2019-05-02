@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -56,7 +55,7 @@ class A_data extends CI_Controller {
         $this->load->view('admin/data/mitra_wilayah');
     }
     function cust_all(){
-        $this->load->view('admin/data/customer_new_pagination_backup_2');
+        $this->load->view('admin/data/customer_new');
     }
     function cust_report(){
         $this->load->view('admin/data/customer_report');
