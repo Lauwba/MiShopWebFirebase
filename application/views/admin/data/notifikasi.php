@@ -25,8 +25,8 @@
                         <div class="form-group row">
                             <label class="col-md-3 m-t-15">Kepada</label>
                             <div class="col-md-9">
-                                <select class="form-control custom-select" style="width: 100%; height:36px;" name="sendto">
-                                    <option>Select</option>
+                                <select class="form-control custom-select" style="width: 100%; height:36px;" name="sendto" required="">
+                                    <option value="">Select</option>
                                     <option value="1">Mitra</option>
                                     <option value="2">Customer</option>
                                     <option value="3">Semua</option>
@@ -36,8 +36,8 @@
                         <div class="form-group row">
                             <label class="col-md-3 m-t-15">Tipe</label>
                             <div class="col-md-9">
-                                <select class="form-control custom-select" style="width: 100%; height:36px;" name="tipe">
-                                    <option>Select</option>
+                                <select class="form-control custom-select" style="width: 100%; height:36px;" name="tipe" required="">
+                                    <option value="">Select</option>
                                     <option value="2">Bike</option>
                                     <option value="1">Car</option>
                                     <option value="0">Shop</option>
@@ -49,14 +49,14 @@
                         <div class="form-group row">
                             <label for="cono1" class="col-sm-3 text-left control-label col-form-label">Pesan</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="pesan"></textarea>
+                                <textarea class="form-control" name="pesan" required=""></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3">Foto</label>
                             <div class="col-md-9">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="validatedCustomFile" name="foto">
+                                    <input type="file" class="custom-file-input" id="validatedCustomFile" name="foto" required="">
                                     <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                                     <div class="invalid-feedback">Example invalid custom file feedback</div>
                                 </div>

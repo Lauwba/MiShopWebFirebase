@@ -22,9 +22,12 @@
                     <div class="col-6">
                         <form id="formTrans">
                             <div class="input-group">
-                                <input type="text" class="form-control mydatepickers" placeholder="mm/dd/yyyy" id="tglTransSpin">
-                                <div class="input-group-append" onclick="loadDataDate()">
-                                    <span class="input-group-text btn btn-cyan" id="basic-addon2"><i class="ti-search"></i>&nbsp; Tampilkan</span>
+                                <input type="text" class="form-control mydatepickers" placeholder="mm/dd/yyyy" id="tglTransSpin" required="">
+                                <!--<div class="input-group-append" onclick="loadDataDate()">-->
+                                <div class="input-group-append">
+                                    <button type="submit" class="input-group-text btn btn-cyan" id="basic-addon2">
+                                        <i class="ti-search"></i>&nbsp; Tampilkan
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -79,7 +82,10 @@
         loadData(start, end);
     });
 
-    function loadDataDate() {
+
+//    function loadDataDate() {
+    $('#formTrans').submit(function (e) {
+        e.preventDefault();
         var today = new Date($('#tglTransSpin').val());
 
 
@@ -94,7 +100,7 @@
         var start = today.setHours(0, 0, 0, 0);
         var end = today.setHours(23, 59, 59, 999);
         loadData(start, end);
-    }
+    });
 
     function loadData(start, end) {
         $('body').loading({
@@ -106,13 +112,13 @@
         var rowIndex = 1;
         var sum = 0;
 
-        databaseRef.once('value', function (snapshot) {            
+        databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 var childData = childSnapshot.val();
 
-                if (childData.ket_trans === "Spinner") {   
+                if (childData.ket_trans === "Spinner") {
                     console.log(rowIndex);
-                    
+
                     var childKey = childData.id_mitra;
 
                     var row = tblSpinner.insertRow(rowIndex);

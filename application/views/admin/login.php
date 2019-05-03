@@ -10,7 +10,7 @@
         <meta name="author" content="">
         <!-- Favicon icon -->
         <link rel="icon" type="image/png"  href="<?php echo base_url(); ?>assets/profil/logo.png">
-        <title><?php echo $title;?></title>
+        <title><?php echo $title; ?></title>
         <!-- Custom CSS -->
         <link href="<?php echo base_url() ?>assets/admin/dist/css/style.min.css" rel="stylesheet">
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <!-- Form -->
-                        <form class="form-horizontal m-t-20" id="login-form" method="post">
+                        <form class="form-horizontal m-t-20" id="login-form" method="post" id="formLogin">
                             <div class="row p-b-30">
                                 <div class="col-12">
                                     <div class="input-group mb-3">
@@ -84,7 +84,7 @@
                                     <div class="form-group">
                                         <div class="p-t-20">
                                             <!--<button class="btn btn-info" id="to-recover" type="button"><i class="fa fa-lock m-r-5"></i> Lost password?</button>-->
-                                            <button class="btn btn-success float-right" type="button" id="btnLogin" onclick="login()">Login</button>
+                                            <button class="btn btn-success float-right" type="submit">Login</button>
                                         </div>
                                     </div>
                                 </div>
@@ -126,7 +126,9 @@
                                                 // ============================================================== 
                                                 // Login and Recover Password 
                                                 // ============================================================== 
-                                                function login() {
+//                                                function login() {
+                                                $('#formLogin').submit(function (e) {
+                                                    e.preventDefault();
                                                     $.ajax({
                                                         url: "<?php echo site_url(); ?>A_acc/login",
                                                         type: "POST",
@@ -145,7 +147,7 @@
                                                         }
                                                     });
 
-                                                }
+                                                });
                                                 $("#show-password").click(function () {
                                                     var type = $("#user-password").attr('type');
                                                     var eye = $("#icon-eye").attr('class');

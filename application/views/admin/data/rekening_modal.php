@@ -4,8 +4,8 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                
             </div>
-            <div class="modal-body form">
-                <form method="post" id="form_tarif">
+            <form method="post" id="form_rek">
+                <div class="modal-body form">
                     <!--content here-->
                     <input type="hidden" name="id_profile">
                     <div class="form-group">
@@ -20,18 +20,20 @@
                         <label>Bank</label>
                         <input type="text" class="form-control" placeholder="Nama Bank" name="bank">
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnSave" onclick="save_tarif()" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSave" onclick="save_tarif()" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <script>
-    function save_tarif()
-    {
+//    function save_tarif()
+//    {
+    $('#form_rek').submit(function (e) {
+        e.preventDefault();
         var url;
         if (save_method == 'add')
         {
@@ -64,5 +66,5 @@
             }
 
         });
-    }
+    });
 </script>

@@ -27,7 +27,7 @@
                             <div class="col-sm-6">
                                 <label>Mulai</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="mulai">
+                                    <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="mulai" required="">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
@@ -36,7 +36,7 @@
                             <div class="col-sm-6">
                                 <label>Akhir</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="akhir">
+                                    <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy" name="akhir" required="">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                     </div>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-12" id="reportData"></div>
-        
+
     </div>    
 </div>
 <?php $this->load->view('admin/f_admin'); ?>
@@ -62,169 +62,54 @@
         $('body').loading({
             stoppable: false
         });
-
         var mulai = $('[name="mulai"]').val();
         var akhir = $('[name="akhir"]').val();
-
         let start = new Date(mulai).getTime();
         let end = new Date(akhir).setHours(23, 59, 59, 999);
-        
-        console.log("start: "+start);
-        console.log("end: "+end);
+//        console.log("start: " + start);
+//        console.log("end: " + end);
 
-        refTarif = firebase.database().ref('/tarif').orderByChild('tipe').equalTo('charge');
+        income("micar", "Potongan Transaksi Mi Car", start, end);
+        income("mibike", "Potongan Transaksi Mi Bike", start, end);
+        income("miexpress", "Potongan Transaksi Mi Express", start, end);
+        income("shop", "Potongan Transaksi Mi Shop", start, end);
+        income("service", "Potongan Transaksi Mi Service", start, end);
+        total(start, end);
+        var url = "<?php echo site_url('Report/report_income_mishop/'); ?>" + mulai + '/' + akhir;
+        $('#reportData').load(url);
 
-        refTarif.once('value').then(function (snapshot) {
+    });
+    function income(type, condition, start, end) {
+        var total = 0;
+        var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild('tgl_trans').startAt(start).endAt(end);
+        databaseRef.once('value').then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
-                var tarif = childSnapshot.val().tarif;
+                var childData = childSnapshot.val();
+                var ket = childData.ket_trans;
+                if (ket.includes(condition)) {
+                    total = total + childData.jumlah;
+                }
 
-                service(tarif, start, end);
-
-                var url = "<?php echo site_url('Report/report_income_mishop/'); ?>" + mulai + '/' + akhir;
-                $('#reportData').load(url);
             });
             $('body').loading('stop');
-        });
-    });
-    function service(tarif, start, end) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/serviceOrder').orderByChild('tanggal_order').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 4) {
-                    var harga = childData.harga;
-                    var ship = childData.ship;
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga + ship);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-
-            });
-//            if (isNaN(sum) === true) {
-//                sum = 0;
-//            }
-            console.log("Akhir Service: " + sum);
-            $("#service").html(toRp(sum));
-            shop(tarif, start, end, sum);
+            $("#" + type).html(toRp(total));
         });
     }
-    function shop(tarif, start, end, total) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/shoporder').orderByChild('tanggalOrder').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
+    function total(start, end){
+        var total = 0;
+        var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild('tgl_trans').startAt(start).endAt(end);
+
+        databaseRef.once('value').then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status_order_shop === 4) {
-                    var add = childData.kenaikan;
-                    var ship = parseInt(childData.ship_shop);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * ((add * childData.qty) + ship);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-            console.log("Akhir Shop: " + sum);
-            $("#shop").html(toRp(sum));
-            express(tarif, start, end, sum + total)
-        });
-    }
-    function express(tarif, start, end, total) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/miexpress').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
 
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
+                var ket = childData.ket_trans;
+                if (ket.includes("Potongan")) {
+                    total = total + childData.jumlah;
                 }
-
             });
-            console.log("Akhir miexpress: " + sum);
-            $("#miexpress").html(toRp(sum));
-            bike(tarif, start, end, sum + total);
-        });
-    }
-    function bike(tarif, start, end, total) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/mibike').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-
-            });
-            console.log("Akhir Bike: " + sum);
-            $("#mibike").html(toRp(sum));
-            car(tarif, start, end, sum + total);
-        });
-    }
-    function car(tarif, start, end, total) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/micar').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-
-            });
-            console.log("Akhir Car: " + sum);
-            $("#micar").html(toRp(sum));
-            $("#total").html(toRp(sum + total));
+            $('body').loading('stop');
+            $("#total").html(toRp(total));
         });
     }
 </script>

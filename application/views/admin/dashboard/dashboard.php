@@ -137,150 +137,20 @@
         tarif(start, endNow, "year");
     }
     function tarif(start, end, time) {
-        refTarif = firebase.database().ref('/tarif').orderByChild('tipe').equalTo('charge');
+        var total = 0;
+        var databaseRef = firebase.database().ref('transaksi_saldo/').orderByChild('tgl_trans').startAt(start).endAt(end);
 
-        refTarif.once('value').then(function (snapshot) {
+        databaseRef.once('value').then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
-                var tarif = childSnapshot.val().tarif;
+                var childData = childSnapshot.val();
 
-                service(tarif, start, end, time);
-
+                var ket = childData.ket_trans;
+                if (ket.includes("Potongan")) {
+                    total = total + childData.jumlah;
+                }
             });
             $('body').loading('stop');
-        });
-    }
-    function service(tarif, start, end, time) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/serviceOrder').orderByChild('tanggal_order').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 4) {
-                    var harga = childData.harga;
-                    var ship = childData.ship;
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga + ship);
-
-                    console.log("income service: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-            if (isNaN(sum) === true) {
-                sum = 0;
-            }
-            console.log("Akhir Service: " + sum);
-//            $("#service").html(toRp(sum));
-            shop(tarif, start, end, sum, time);
-        });
-    }
-    function shop(tarif, start, end, total, time) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/shoporder').orderByChild('tanggalOrder').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status_order_shop === 4) {
-                    var add = parseInt(childData.kenaikan);
-                    var ship = parseInt(childData.ship_shop);
-                    var qty = childData.qty;
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * ((add * qty) + ship);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income shop: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-            console.log("Akhir Shop: " + sum);
-//            $("#shop").html(toRp(sum));
-            express(tarif, start, end, sum + total, time)
-        });
-    }
-    function express(tarif, start, end, total, time) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/miexpress').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income xpress: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-            console.log("Akhir miexpress: " + sum);
-//            $("#miexpress").html(toRp(sum));
-            bike(tarif, start, end, sum + total, time);
-        });
-    }
-    function bike(tarif, start, end, total, time) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/mibike').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income bike: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-            console.log("Akhir Bike: " + sum);
-//            $("#mibike").html(toRp(sum));
-            car(tarif, start, end, sum + total, time);
-        });
-    }
-    function car(tarif, start, end, total, time) {
-        var sum = 0;
-        databaseRef = firebase.database().ref('/micar').orderByChild('tanggal').startAt(start).endAt(end);
-        databaseRef.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                if (childData.status === 3) {
-                    var harga = parseInt(childData.harga);
-                    var percent = parseInt(tarif) / 100;
-
-                    var pendapatan = percent * (harga);
-                    if (isNaN(pendapatan) === true) {
-                        pendapatan = 0;
-                    }
-
-                    console.log("income: " + pendapatan);
-
-                    sum = sum + pendapatan;
-                }
-            });
-
-            console.log("Akhir Car: " + sum);
-//            $("#micar").html(toRp(sum));
-            $("#" + time).html(toRp(sum + total));
+            $("#" + time).html(toRp(total));
         });
     }
 </script>

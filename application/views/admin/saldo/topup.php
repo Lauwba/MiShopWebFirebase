@@ -25,7 +25,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Masukkan Kode Mitra...." name="id_mitra" required="">
                                     <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2"><i class="ti-search"></i></span>
+                                        <button type="submit" class="input-group-text" id="basic-addon2"><i class="ti-search"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -45,9 +45,4 @@
         var url = "<?php echo site_url('Saldo/form_topup/'); ?>" + id_mitra;
         $("#formTopup").load(url);
     });
-    $('#basic-addon2').click(function (e) {
-        $('#form_search').trigger('submit');
-    })
-
-
 </script>
