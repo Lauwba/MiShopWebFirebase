@@ -66,11 +66,11 @@
 
             if(childData.statusAktif !== 1) {
 
-                if (jQuery.isEmptyObject(childData.fotoCustomer)) {
-                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
-                } else {
+//                if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+//                    var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+//                } else {
                     var foto = childData.fotoCustomer;
-                }
+//                }
                 var row = tbl.insertRow(rowIndex);
                 var cellNo = row.insertCell(0);
                 var cellFoto = row.insertCell(1);
@@ -79,7 +79,7 @@
                 var cellJumlah = row.insertCell(4);
                 var cellAction = row.insertCell(5);
                 cellNo.appendChild(document.createTextNode(rowIndex));
-                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px'>";
+                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' onerror='imgError(this)'>";
                 cellEmail.appendChild(document.createTextNode(childData.email));
                 cellNama.appendChild(document.createTextNode(childData.nama));
 

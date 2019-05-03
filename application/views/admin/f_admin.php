@@ -78,7 +78,11 @@
         }
         return 'Rp ' + rev2.split('').reverse().join('') + ',-';
     }
-
+    function imgError(image) {
+        image.onerror = "";
+        image.src = "<?php echo base_url('assets/profil/people.png'); ?>";
+        return true;
+    }
 </script>
 
 

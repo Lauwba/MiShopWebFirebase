@@ -77,7 +77,7 @@
             var cellRate = row.insertCell(7);
             var cellAction = row.insertCell(8);
             cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
+            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px' onerror='imgError(this)'>";
             cellKode.appendChild(document.createTextNode(childData.id_mitra));
             cellEmail.appendChild(document.createTextNode(childData.email_mitra));
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));

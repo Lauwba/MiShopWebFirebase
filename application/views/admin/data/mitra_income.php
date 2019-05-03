@@ -38,7 +38,7 @@
             var cellJumlah = row.insertCell(3);
             var cellAction = row.insertCell(4);
             cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
+            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px' onerror='imgError(this)'>";
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
             cellJumlah.innerHTML = "<table><tr><td>Service</td><td>Shop</td><td>Express</td><td>Car</td><td>Bike</td></tr>"
                     + "<tr><td><span id='service" + uid + "'></span></td><td><span id='shop" + uid + "'></span></td><td><span id='express" + uid + "'>"

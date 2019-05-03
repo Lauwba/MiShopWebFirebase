@@ -39,7 +39,7 @@
             var cellAction = row.insertCell(6);
 
             cellNo.appendChild(document.createTextNode(rowIndex));
-            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px'>";
+            cellFoto.innerHTML = "<img src='" + childData.foto + "' style='width:100px' onerror='imgError(this)'>";
             cellEmail.appendChild(document.createTextNode(childData.email_mitra));
             cellNama.appendChild(document.createTextNode(childData.nama_mitra));
             cellUnik.appendChild(document.createTextNode(childData.unik));

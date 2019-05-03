@@ -88,7 +88,7 @@
         loadData(dbRef);
     }
 
-    function loadData(databaseRef) {        
+    function loadData(databaseRef) {
         var rowIndex = 1;
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -96,31 +96,32 @@
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
 //                if (rowIndex <= 3) {
-                    if (jQuery.isEmptyObject(childData.fotoCustomer)) {
-                        var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
-                    } else {
-                        var foto = childData.fotoCustomer;
-                    }
+//                    if (jQuery.isEmptyObject(childData.fotoCustomer)) {
+//                        var foto = "<?php echo base_url('assets/profil/people.png'); ?>";
+//                    } else {
+                var foto = childData.fotoCustomer;
+//                    }
 
-                    if (childData.statusAktif === 1) {
-                        var status = "Suspend";
-                    } else {
-                        var status = "Aktif";
-                    }
+                if (childData.statusAktif === 1) {
+                    var status = "Suspend";
+                } else {
+                    var status = "Aktif";
+                }
 
-                    var row = tbl.insertRow(rowIndex);
-                    var cellNo = row.insertCell(0);
-                    var cellFoto = row.insertCell(1);
-                    var cellEmail = row.insertCell(2);
-                    var cellNama = row.insertCell(3);
-                    var cellAlamat = row.insertCell(4);
-                    var cellStatus = row.insertCell(5);
-                    cellNo.appendChild(document.createTextNode(rowIndex));
-                    cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#'>";
-                    cellEmail.appendChild(document.createTextNode(childData.email));
-                    cellNama.appendChild(document.createTextNode(childData.nama));
-                    cellAlamat.appendChild(document.createTextNode(childData.alamat));
-                    cellStatus.appendChild(document.createTextNode(status));
+                var row = tbl.insertRow(rowIndex);
+                var cellNo = row.insertCell(0);
+                var cellFoto = row.insertCell(1);
+                var cellEmail = row.insertCell(2);
+                var cellNama = row.insertCell(3);
+                var cellAlamat = row.insertCell(4);
+                var cellStatus = row.insertCell(5);
+                cellNo.appendChild(document.createTextNode(rowIndex));
+                cellFoto.innerHTML = "<img src='" + foto + "' style='width:100px' alt='#' onerror='imgError(this)'>";
+                ">";
+                cellEmail.appendChild(document.createTextNode(childData.email));
+                cellNama.appendChild(document.createTextNode(childData.nama));
+                cellAlamat.appendChild(document.createTextNode(childData.alamat));
+                cellStatus.appendChild(document.createTextNode(status));
 //                } else if (rowIndex === 4) {
 //                    key = childKey;
 //                    console.log(key);

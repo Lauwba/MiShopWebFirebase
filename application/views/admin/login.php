@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <!-- Form -->
-                        <form class="form-horizontal m-t-20" id="login-form" method="post" id="formLogin">
+                        <form class="form-horizontal m-t-20" method="post" id="formLogin">
                             <div class="row p-b-30">
                                 <div class="col-12">
                                     <div class="input-group mb-3">
@@ -132,14 +132,14 @@
                                                     $.ajax({
                                                         url: "<?php echo site_url(); ?>A_acc/login",
                                                         type: "POST",
-                                                        data: $('#login-form').serialize(),
+                                                        data: $('#formLogin').serialize(),
                                                         success: function (data)
                                                         {
                                                             if (data == 1)
                                                                 window.location.assign("<?php echo site_url('A_dashboard'); ?>");
                                                             else
                                                                 $('#logerror').addClass("visib");
-                                                            $('#login-form')[0].reset();
+                                                            $('#formLogin')[0].reset();
                                                         },
                                                         error: function (jqXHR, textStatus, errorThrown)
                                                         {
