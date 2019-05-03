@@ -61,7 +61,7 @@
         snapshot.forEach(function (childSnapshot) {
             var childKey = childSnapshot.key;
             var childData = childSnapshot.val();
-            
+
             var tgl = new Date(childData.poston);
             t.row.add([
                 rowIndex,
@@ -69,7 +69,7 @@
                 childData.tarif,
                 childData.ket,
                 "<button type='button' class='btn btn-danger' onclick='delete_user(`" + childKey + "`);'>Delete</button>" +
-                "<button type='button' class='btn btn-primary' onclick='edit(`" + childKey + "`);'>Edit</button>"
+                        "<button type='button' class='btn btn-primary' onclick='edit(`" + childKey + "`);'>Edit</button>"
             ]).draw(false);
 
 //            var row = tblTarif.insertRow(rowIndex);
@@ -95,6 +95,7 @@
         save_method = 'add';
         $('#form_tarif')[0].reset(); // reset form on modals
         $('#modal_tarif').modal('show'); // show bootstrap modal
+
     }
     function del(id)
     {
@@ -118,6 +119,12 @@
             $('[name="tipe_tarif"]').val(tipe);
             $('[name="tarif"]').val(tarif);
             $('[name="ket"]').val(ket);
+
+//            var tipe = $('[name="tipe_tarif"]').val();
+//            if (tipe === "bike" || tipe === "car" || tipe === "express") {
+//                $('[name="tarif"]').attr("min", '4000');
+//            }
+
             $('#modal_tarif').modal('show');
 
         });

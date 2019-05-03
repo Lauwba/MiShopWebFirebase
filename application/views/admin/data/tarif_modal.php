@@ -8,7 +8,7 @@
                 <div class="modal-body form">
 
                     <!--content here-->
-                    <input type="text" name="id_tarif" value="" >
+                    <input type="hidden" name="id_tarif" value="" >
                     <div class="form-group">
                         <label>Tipe</label>
                         <input type="text" class="form-control" placeholder="Tipe Tarif" name="tipe_tarif" readonly="" required="">
